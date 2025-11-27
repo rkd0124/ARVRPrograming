@@ -1,0 +1,82 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Gun : MonoBehaviour
+{
+    public Transform poisonImpact; // 독 피격
+    ParticleSystem poisonEffect; //독 파편 파티클
+    AudioSource poisonAudio; // 독 사운드
+    public Transform crosshair; //크로스헤어
+
+    //여기 변수들은 자료에 없던거
+    float CoolTime = 0.5f; // 쿨타임
+    float lastFireTime = 0f; //마지막으로 총 발사한거 *쿨타임 구현에 필요
+
+    int no1Damage = 5; //최초 데미지
+    int DotDamage = 1; //도트뎀
+    float DotDamageTime = 1; //도트뎀 들어가는 주기
+    float DotTime = 3; //도트뎀 지속시간
+
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        poisonEffect = poisonImpact.GetComponent<ParticleSystem>();
+        poisonAudio = poisonImpact.GetComponent<AudioSource>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //크로스헤어 ---
+        ARAVRInput.DrawCrosshair(crosshair);
+        //크로스헤어 여기까지---
+        //1번 무기 : 독
+        if(ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger)){
+            //독 발사 실행
+            if(Time.time - lastFireTime < CoolTime){ 
+                return;
+            }//만약 쿨타임이 다 안끝남 = 발사 ㄴㄴ
+
+            PoisonFire(); //쿨타임이 끝났다면 실행됨
+            //독 발사 여기까지
+        }
+    }
+
+    void PoisonFire()
+    {
+        poisonEffect.Stop();
+        poisonEffect.Play();
+
+        Ray ray = new Ray(ARAVRInput.RHandPosition, ARAVRInput.RHandDirection);
+
+        RaycastHit hitInfo;
+
+        int playerLayer = 1 << LayerMask.NameToLayer("Player");
+
+        int towerLayer = 1 << LayerMask.NameToLayer("Tower");
+
+        int layerMask = playerLayer | towerLayer;
+
+        // 이 아래는 독극물 피격 효과----
+        if (Physics.Raycast(ray, out hitInfo, 200, ~layerMask))
+        {
+            poisonEffect.Stop();
+            poisonEffect.Play();
+                
+            poisonImpact.position = hitInfo.point;
+            poisonImpact.forward = hitInfo.normal;
+
+            //적에게 명중시 ---
+            Enemy enemy = hitInfo.collider.GetComponent<Enemy>();
+            if (enemy != null){
+
+                enemy.ApplyPoison(no1Damage, DotDamage, DotTime, DotDamageTime); //적의  함수 실행
+            }
+                //명중 코드 여기까지---
+        }
+        lastFireTime = Time.time;
+    }
+}
