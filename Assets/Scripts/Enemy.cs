@@ -13,13 +13,13 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log(gameObject.name + " 현재 체력: " + hp); // 디버그용: 현재 체력 출력
     }
 
     public void ApplyPoison(int firstDamage, int dotDamage, float duration, float DamageTime){
@@ -50,7 +50,7 @@ public class Enemy : MonoBehaviour
 
     void TakeDamage(int amount){
         hp -= amount;
-
+        
         if(hp<=0){
             Destroy(gameObject);
             // 체력 0이면 죽음

@@ -62,7 +62,6 @@ public class Gun : MonoBehaviour
         PoisonBullet posion = posionobj.GetComponent<PoisonBullet>();
 
         /* //ARVR용 코드----
-        GameObject posion = bulletPool.GetBullet();
         posion.transform.position = ARAVRInput.RHandPosition;
         posion.transform.forward = ARAVRInput.RHandDirection;
         // ARVR----*/

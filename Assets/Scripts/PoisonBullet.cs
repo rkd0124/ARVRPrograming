@@ -38,24 +38,24 @@ public class PoisonBullet : MonoBehaviour
         // 사거리나 생존시간 체크
         if (elapsedTime >= lifeTime || Vector3.Distance(startPos, transform.position) >= maxDistance)
         {
-            gameObject.SetActive(false); // 오브젝트 풀 사용 시 Destroy 대신 비활성화
+            gameObject.SetActive(false);
         }
-
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player")){
-            return;
-            //플레이어랑 충돌하면 총알 사라지는 버그 있는듯?
-        }
-        Enemy enemy = collision.collider.GetComponent<Enemy>();
-        if (enemy != null)
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            // 적에게 1차 데미지 + 도트 적용
-            enemy.ApplyPoison(firstDamage, dotDamage, dotDuration, dotInterval);
-        }
+            // 적레이어에게만 작동
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            if (enemy != null)
+            {// 적에게 1차 데미지 + 도트 적용
+                enemy.ApplyPoison(firstDamage, dotDamage, dotDuration, dotInterval);
+            }
 
-        gameObject.SetActive(false); // 총알 충돌 후 삭제
+            gameObject.SetActive(false); // 총알 충돌 후 삭제
+        }
+        
     }
+
 }
