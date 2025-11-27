@@ -55,6 +55,8 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
             // 체력 0이면 죽음
         }
+        
+        //임시커밋용 주석
 
     }
 }

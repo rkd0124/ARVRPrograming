@@ -38,5 +38,7 @@ public class PoisonFactory : MonoBehaviour
         obj.SetActive(true);  // 활성화 후 반환
         posions.Add(obj);
         return obj;
+
+        //임시커밋용 주석
     }
 }

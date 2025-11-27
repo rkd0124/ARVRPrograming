@@ -74,4 +74,5 @@ public class Gun : MonoBehaviour
 
         lastFireTime = Time.time;
     }
+    //임시커밋용 주석
 }
