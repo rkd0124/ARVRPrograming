@@ -13,11 +13,6 @@ public class Gun : MonoBehaviour
     float CoolTime = 0.5f; // 쿨타임
     float lastFireTime = 0f; //마지막으로 총 발사한거 *쿨타임 구현에 필요
 
-    int no1Damage = 5; //최초 데미지
-    int DotDamage = 1; //도트뎀
-    float DotDamageTime = 1; //도트뎀 들어가는 주기
-    float DotTime = 3; //도트뎀 지속시간
-
     public PoisonFactory bulletPool; // 총알 풀 연결
 
 
@@ -63,7 +58,8 @@ public class Gun : MonoBehaviour
         poisonEffect.Stop();
         poisonEffect.Play();
 
-        GameObject posion = bulletPool.GetBullet();
+        GameObject posionobj = bulletPool.GetBullet();
+        PoisonBullet posion = posionobj.GetComponent<PoisonBullet>();
 
         /* //ARVR용 코드----
         GameObject posion = bulletPool.GetBullet();
@@ -73,10 +69,10 @@ public class Gun : MonoBehaviour
 
         //마우스용 코드
         Camera cam = Camera.main;
-        posion.transform.position = cam.transform.position + cam.transform.forward * 0.5f;
-        posion.transform.forward = cam.transform.forward;
+        posion.Activate(cam.transform.position + cam.transform.forward * 0.5f, cam.transform.forward);
         //마우스---
-    
+
+
         lastFireTime = Time.time;
     }
 }

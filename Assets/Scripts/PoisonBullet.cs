@@ -17,30 +17,38 @@ public class PoisonBullet : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+
+    public void Activate(Vector3 position, Vector3 direction)
     {
-        startPos = transform.position;
-        //시작 위치 저장
+        transform.position = position;
+        transform.forward = direction;
+        startPos = position;
+        elapsedTime = 0f;
+        gameObject.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        transform.position += transform.forward * speed * Time.deltaTime;
 
         // 경과 시간 업데이트
         elapsedTime += Time.deltaTime;
 
-        // 사거리가 넘었거나 생존시간이 넘엇나?
+        // 사거리나 생존시간 체크
         if (elapsedTime >= lifeTime || Vector3.Distance(startPos, transform.position) >= maxDistance)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false); // 오브젝트 풀 사용 시 Destroy 대신 비활성화
         }
 
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player")){
+            return;
+            //플레이어랑 충돌하면 총알 사라지는 버그 있는듯?
+        }
         Enemy enemy = collision.collider.GetComponent<Enemy>();
         if (enemy != null)
         {
@@ -48,6 +56,6 @@ public class PoisonBullet : MonoBehaviour
             enemy.ApplyPoison(firstDamage, dotDamage, dotDuration, dotInterval);
         }
 
-        Destroy(gameObject); // 총알 충돌 후 삭제
+        gameObject.SetActive(false); // 총알 충돌 후 삭제
     }
 }
