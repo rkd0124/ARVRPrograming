@@ -42,6 +42,7 @@ public class Gun : MonoBehaviour
 
             PoisonFire(); //쿨타임이 끝났다면 실행됨
             //독 발사 여기까지
+            
         }
     }
 
