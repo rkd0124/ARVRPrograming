@@ -18,6 +18,8 @@ public class Gun : MonoBehaviour
     float DotDamageTime = 1; //도트뎀 들어가는 주기
     float DotTime = 3; //도트뎀 지속시간
 
+    public PoisonFactory bulletPool; // 총알 풀 연결
+
 
 
     // Start is called before the first frame update
@@ -44,6 +46,16 @@ public class Gun : MonoBehaviour
             //독 발사 여기까지
             
         }
+        //이 코드들은 마우스용 코드임-----
+        if (Input.GetMouseButtonDown(1))
+        {
+            if(Time.time - lastFireTime < CoolTime){ 
+                return;
+            }//만약 쿨타임이 다 안끝남 = 발사 ㄴㄴ
+
+            PoisonFire();
+        }
+        // 마우스용 코드 여기까지-------
     }
 
     void PoisonFire()
@@ -51,33 +63,20 @@ public class Gun : MonoBehaviour
         poisonEffect.Stop();
         poisonEffect.Play();
 
-        Ray ray = new Ray(ARAVRInput.RHandPosition, ARAVRInput.RHandDirection);
+        GameObject posion = bulletPool.GetBullet();
 
-        RaycastHit hitInfo;
+        /* //ARVR용 코드----
+        GameObject posion = bulletPool.GetBullet();
+        posion.transform.position = ARAVRInput.RHandPosition;
+        posion.transform.forward = ARAVRInput.RHandDirection;
+        // ARVR----*/
 
-        int playerLayer = 1 << LayerMask.NameToLayer("Player");
-
-        int towerLayer = 1 << LayerMask.NameToLayer("Tower");
-
-        int layerMask = playerLayer | towerLayer;
-
-        // 이 아래는 독극물 피격 효과----
-        if (Physics.Raycast(ray, out hitInfo, 200, ~layerMask))
-        {
-            poisonEffect.Stop();
-            poisonEffect.Play();
-                
-            poisonImpact.position = hitInfo.point;
-            poisonImpact.forward = hitInfo.normal;
-
-            //적에게 명중시 ---
-            Enemy enemy = hitInfo.collider.GetComponent<Enemy>();
-            if (enemy != null){
-
-                enemy.ApplyPoison(no1Damage, DotDamage, DotTime, DotDamageTime); //적의  함수 실행
-            }
-                //명중 코드 여기까지---
-        }
+        //마우스용 코드
+        Camera cam = Camera.main;
+        posion.transform.position = cam.transform.position + cam.transform.forward * 0.5f;
+        posion.transform.forward = cam.transform.forward;
+        //마우스---
+    
         lastFireTime = Time.time;
     }
 }
