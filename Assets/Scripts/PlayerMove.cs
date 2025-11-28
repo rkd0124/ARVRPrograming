@@ -38,7 +38,7 @@ public class PlayerMove : MonoBehaviour
 
            // Q. 왜 여기로 점프를 옮겼냐?
            // A. 바닥에 있어야만 점프가능하게 만든거임, 안 그러면 무한점프&허공답보함
-           // 허공답보를 원하면 조건문에서 빼면 됨
+           // 공중점프를 원하면 조건문에서 빼면 됨
            if(ARAVRInput.GetDown(ARAVRInput.Button.Two, ARAVRInput.Controller.RTouch)){
 
             yVelocity = jumpPower; 

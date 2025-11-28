@@ -15,7 +15,7 @@ public class Tower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("타워 체력: "+hp); //디버그용
+        
     }
 
     public void TakeDamage(int amount)
