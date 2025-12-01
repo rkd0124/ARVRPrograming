@@ -21,7 +21,7 @@ public class PlayerMove : MonoBehaviour
         cc = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
+   /* // Update is called once per frame
     void Update()
     {
         float player_X = ARAVRInput.GetAxis("Horizontal");
@@ -51,5 +51,37 @@ public class PlayerMove : MonoBehaviour
         dir.y = yVelocity;
         cc.Move(dir*speed*Time.deltaTime);
         
+    }*/
+
+    void Update()
+    {
+        float player_X = ARAVRInput.GetAxis("Horizontal");
+        float player_Z = ARAVRInput.GetAxis("Vertical");
+
+        // 1. 이동 입력 벡터
+        Vector3 moveDir = new Vector3(player_X, 0, player_Z);
+        moveDir = Camera.main.transform.TransformDirection(moveDir);
+        moveDir.y = 0; // 카메라 기울기 영향 제거
+
+        // 2. 중력 및 점프 처리
+        if (cc.isGrounded)
+        {
+            yVelocity = -1f;  // 살짝 붙여두기 (0이면 지면 체크 끊기는 문제 있음)
+
+            if (ARAVRInput.GetDown(ARAVRInput.Button.Two, ARAVRInput.Controller.RTouch))
+            {
+                yVelocity = jumpPower;
+            }
+        }
+        else
+        {
+            yVelocity += gravity * Time.deltaTime;
+        }
+
+        // 3. 최종 이동 벡터
+        Vector3 finalMove = moveDir * speed;
+        finalMove.y = yVelocity;
+
+        cc.Move(finalMove * Time.deltaTime);
     }
 }
