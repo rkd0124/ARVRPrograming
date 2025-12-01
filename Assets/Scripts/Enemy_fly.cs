@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI; //NavMeshAgent
 
-public class Enemy_fly : MonoBehaviour
+public class Enemy_fly : MonoBehaviour, IEnemy
 {
     public int hp = 30; //체력
     //공격&이동 관련---
@@ -13,6 +13,7 @@ public class Enemy_fly : MonoBehaviour
     public float attackdistance = 7.5f; // 공격 사거리
 
     float originalSpeed; //얼음 아이템을 위한 이동속도 백업용
+    public float IceGauge = 10f; //얼음 게이지 채우기용
 
     private bool isAttacking = false; //쿨타임인지 아닌지
     //공격 이동---
@@ -57,7 +58,7 @@ public class Enemy_fly : MonoBehaviour
 
             // 거리 기반 공격 추가 - 네비게이션 추가하니까 타워에 닿기 어렵더라
             float distance = Vector3.Distance(transform.position, towerTarget.position);
-            Debug.Log(distance); //디버그용 거리측정
+            //Debug.Log(distance); //디버그용 거리측정
 
             if(distance < 6.4) 
             //쌩으로 거리가 디버그용 그거 수치로 대충 적어둠
@@ -159,6 +160,13 @@ public class Enemy_fly : MonoBehaviour
         Debug.Log(gameObject.name + " 현재 체력: " + hp); // 디버그용: 현재 체력 출력
         
         if(hp<=0){
+            //게이지 충전
+            IceItemManager iceManager = FindObjectOfType<IceItemManager>();
+            if (iceManager != null)
+            {
+                iceManager.AddGauge(IceGauge); // 예: 적 한 마리 처치 시 게이지 10 증가
+            }
+
             Destroy(gameObject);
             // 체력 0이면 죽음
         }
