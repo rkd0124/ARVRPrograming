@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI; //NavMeshAgent
 
-public class Enemy : MonoBehaviour
+public class Enemy_fly : MonoBehaviour
 {
     public int hp = 30; //체력
     //공격&이동 관련---
@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
     //NavMesh 관련임.. 설명하자면 장애물 있는 공간에서 자동으로 최적 경로 추적하는거
     NavMeshAgent agent;
     Transform towerTarget;
-ㅗ
+
     //체력 감소 관련
     Coroutine poisonRoutine; 
     //^^^코루틴 : 시간 일시정지 같은 느낌인데...
