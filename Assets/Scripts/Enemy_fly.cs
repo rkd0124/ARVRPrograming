@@ -15,6 +15,11 @@ public class Enemy_fly : MonoBehaviour
     private bool isAttacking = false; //쿨타임인지 아닌지
     //공격 이동---
 
+    // 수지상 세포 전용 폭탄 떨구기---
+    public GameObject bombPrefab; // 폭탄 프리팹
+    public Transform bombDropPoint; //폭탄 떨굴 위치
+    //폭탄 떨구기 여기까지----
+
     //NavMesh 관련임.. 설명하자면 장애물 있는 공간에서 자동으로 최적 경로 추적하는거
     NavMeshAgent agent;
     Transform towerTarget;
@@ -50,7 +55,7 @@ public class Enemy_fly : MonoBehaviour
             float distance = Vector3.Distance(transform.position, towerTarget.position);
             Debug.Log(distance); //디버그용 거리측정
 
-            if(distance < 7.5) //왜인지는 모르겠는데 여기 숫자에 공격사거리 변수 넣으니 작동이 안됨
+            if(distance < 6.4) 
             //쌩으로 거리가 디버그용 그거 수치로 대충 적어둠
             {
                 
@@ -71,10 +76,10 @@ public class Enemy_fly : MonoBehaviour
             }
         }
     }
-
+    
     IEnumerator AttackTower(Tower tower)
     {
-        Debug.Log("1111");
+
         if(isAttacking)
         {
             yield break; //공격 쿨타임중이면 종료
@@ -82,13 +87,25 @@ public class Enemy_fly : MonoBehaviour
 
         isAttacking = true; //공격중으로 활성화
         
-        tower.TakeDamage(attackDamage); // 타워한테 공격
+       DropBomb(tower); // 폭탄 투하
 
         yield return new WaitForSeconds(attackCoolTime); //쿨타임동안 여기 기다리기
         isAttacking = false; //쿨타임 종료 - 공격 해제
 
     }
 
+     void DropBomb(Tower tower)
+    {
+        GameObject bomb = Instantiate(bombPrefab, bombDropPoint.position, Quaternion.identity); // 폭탄 생성
+        Bomb bombScript = bomb.GetComponent<Bomb>(); // 폭탄 스크립트 얻기
+
+        if (bombScript != null)
+        {
+            bombScript.SetDamage(attackDamage); // 본인 공격력?을 폭탄에게 전달
+            bombScript.SetTarget(tower.transform); // 폭탄이 떨어질 실제 타워 위치 전달
+            bombScript.AttackTowerBomb(tower);
+        }
+    }
 
     // 독 관련 처리 ---
     public void ApplyPoison(int firstDamage, int dotDamage, float duration, float DamageTime){
