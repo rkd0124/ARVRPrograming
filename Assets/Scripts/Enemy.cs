@@ -7,10 +7,12 @@ public class Enemy : MonoBehaviour
 {
     public int hp = 30; //체력
     //공격&이동 관련---
-    public float moveSpeed = 2.0f; //공격쿨타임
+    public float moveSpeed = 2.0f; //이동속도
     public int attackDamage = 2; //데미지
-    public float attackCoolTime = 2.0f;
+    public float attackCoolTime = 2.0f;//공격쿨타임
     public float attackdistance = 3.92f; // 공격 사거리
+
+    float originalSpeed; //얼음 아이템을 위한 이동속도 백업용
 
     private bool isAttacking = false; //쿨타임인지 아닌지
     //공격 이동---
@@ -29,6 +31,8 @@ public class Enemy : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         agent.speed = moveSpeed;
+
+        originalSpeed = moveSpeed;   // 얼음 대비용
 
         GameObject towerObj = GameObject.FindGameObjectWithTag("Tower");
         // 타워찾아서
@@ -116,6 +120,20 @@ public class Enemy : MonoBehaviour
         poisonRoutine = null; //모든 과정이 끝나면 널이 됨
     }
     // 독 처리 여기까지 ----
+
+    //얼음 처리----
+    public void ApplySlow(float percent) //얼음 발동
+    {
+        moveSpeed = originalSpeed * percent;
+        agent.speed = moveSpeed;
+    }
+
+    public void RemoveSlow() //얼음 지속시간 끝
+    {
+        moveSpeed = originalSpeed;
+        agent.speed = originalSpeed;
+    }
+    //얼음 처리 여기까지 ----
 
     // 체력감소
     void TakeDamage(int amount){
