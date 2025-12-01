@@ -42,22 +42,23 @@ public class PoisonBullet : MonoBehaviour
             gameObject.SetActive(false); //총알 삭제
         }
     }
-
-    private void OnCollisionEnter(Collision collision)
+    
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            // 적레이어에게만 작동
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            // 적에게만 작동
+            Enemy enemy = other.GetComponent<Enemy>();
             if (enemy != null)
             {// 적에게 1차 데미지 + 도트 적용
-                enemy.ApplyPoison(firstDamage, dotDamage, dotDuration, dotInterval);
+                enemy.ApplyPoison(firstDamage, dotDamage, dotDuration, dotInterval);// 총알 충돌 후 삭제
+                Debug.Log("Enemy HP After Hit: " + enemy.hp);
             }
 
-            gameObject.SetActive(false); // 총알 충돌 후 삭제
-        }
-        
+            gameObject.SetActive(false);
     }
+    }
+    
     //임시커밋용 주석
 
 }
