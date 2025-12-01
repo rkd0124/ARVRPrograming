@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI; //NavMeshAgent
 
-public class Enemy : MonoBehaviour, IEnemy
+public class Enemy_Tk : MonoBehaviour, IEnemy
 {
     public int hp = 30; //체력
     //공격&이동 관련---
@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour, IEnemy
     public float attackdistance = 3.92f; // 공격 사거리
 
     float originalSpeed; //얼음 아이템을 위한 이동속도 백업용
-    public float IceGauge = 10f; //얼음 게이지 채우기용
+    float IceGauge = 5f; //얼음 게이지 채우기용
 
     private bool isAttacking = false; //쿨타임인지 아닌지
     //공격 이동---
@@ -147,7 +147,7 @@ public class Enemy : MonoBehaviour, IEnemy
             {
                 iceManager.AddGauge(IceGauge); // 예: 적 한 마리 처치 시 게이지 10 증가
             }
-            
+
             Destroy(gameObject);
             // 체력 0이면 죽음
         }
