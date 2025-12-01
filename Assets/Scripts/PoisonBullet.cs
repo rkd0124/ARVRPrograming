@@ -48,12 +48,18 @@ public class PoisonBullet : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             // 적에게만 작동
-            var enemy = other.GetComponent<Enemy>();
+            var enemyTk = other.GetComponent<Enemy_Tk>();
+            var enemyNK = other.GetComponent<Enemy_NK>();
             var enemyFly = other.GetComponent<Enemy_fly>();
 
-            if (enemy != null)
+            if (enemyTk != null)
             {// 적에게 1차 데미지 + 도트 적용
-                enemy.ApplyPoison(firstDamage, dotDamage, dotDuration, dotInterval);// 총알 충돌 후 삭제
+                enemyTk.ApplyPoison(firstDamage, dotDamage, dotDuration, dotInterval);// 총알 충돌 후 삭제
+            }
+
+            else if (enemyNK != null)
+            {// 적에게 1차 데미지 + 도트 적용
+                enemyNK.ApplyPoison(firstDamage, dotDamage, dotDuration, dotInterval);// 총알 충돌 후 삭제
             }
 
             else if (enemyFly != null)

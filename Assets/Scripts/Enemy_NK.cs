@@ -3,25 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI; //NavMeshAgent
 
-public class Enemy_fly : MonoBehaviour, IEnemy
+public class Enemy_NK : MonoBehaviour, IEnemy
 {
     public int hp = 30; //체력
     //공격&이동 관련---
     public float moveSpeed = 2.0f; //이동속도
     public int attackDamage = 2; //데미지
-    public float attackCoolTime = 2.0f; //공격쿨타임
-    public float attackdistance = 7.5f; // 공격 사거리
+    public float attackCoolTime = 2.0f;//공격쿨타임
+    public float attackdistance = 3.92f; // 공격 사거리
 
     float originalSpeed; //얼음 아이템을 위한 이동속도 백업용
     float IceGauge = 5f; //얼음 게이지 채우기용
 
     private bool isAttacking = false; //쿨타임인지 아닌지
     //공격 이동---
-
-    // 수지상 세포 전용 폭탄 떨구기---
-    public GameObject bombPrefab; // 폭탄 프리팹
-    public Transform bombDropPoint; //폭탄 떨굴 위치
-    //폭탄 떨구기 여기까지----
 
     //NavMesh 관련임.. 설명하자면 장애물 있는 공간에서 자동으로 최적 경로 추적하는거
     NavMeshAgent agent;
@@ -58,12 +53,11 @@ public class Enemy_fly : MonoBehaviour, IEnemy
 
             // 거리 기반 공격 추가 - 네비게이션 추가하니까 타워에 닿기 어렵더라
             float distance = Vector3.Distance(transform.position, towerTarget.position);
-            //Debug.Log(distance); //디버그용 거리측정
-
-            if(distance < 6.4) 
+            
+            if(distance < 4) //왜인지는 모르겠는데 여기 숫자에 공격사거리 변수 넣으니 작동이 안됨
             //쌩으로 거리가 디버그용 그거 수치로 대충 적어둠
             {
-                
+                //Debug.Log(distance); //디버그용 거리측정
                 Tower tower = towerTarget.gameObject.GetComponent<Tower>();
                 StartCoroutine(AttackTower(tower));
             }
@@ -84,7 +78,6 @@ public class Enemy_fly : MonoBehaviour, IEnemy
 
     IEnumerator AttackTower(Tower tower)
     {
-
         if(isAttacking)
         {
             yield break; //공격 쿨타임중이면 종료
@@ -92,25 +85,13 @@ public class Enemy_fly : MonoBehaviour, IEnemy
 
         isAttacking = true; //공격중으로 활성화
         
-       DropBomb(tower); // 폭탄 투하
+        tower.TakeDamage(attackDamage); // 타워한테 공격
 
         yield return new WaitForSeconds(attackCoolTime); //쿨타임동안 여기 기다리기
         isAttacking = false; //쿨타임 종료 - 공격 해제
 
     }
 
-     void DropBomb(Tower tower)
-    {
-        GameObject bomb = Instantiate(bombPrefab, bombDropPoint.position, Quaternion.identity); // 폭탄 생성
-        Bomb bombScript = bomb.GetComponent<Bomb>(); // 폭탄 스크립트 얻기
-
-        if (bombScript != null)
-        {
-            bombScript.SetDamage(attackDamage); // 본인 공격력?을 폭탄에게 전달
-            bombScript.SetTarget(tower.transform); // 폭탄이 떨어질 실제 타워 위치 전달
-            bombScript.AttackTowerBomb(tower);
-        }
-    }
 
     // 독 관련 처리 ---
     public void ApplyPoison(int firstDamage, int dotDamage, float duration, float DamageTime){
@@ -160,7 +141,7 @@ public class Enemy_fly : MonoBehaviour, IEnemy
         Debug.Log(gameObject.name + " 현재 체력: " + hp); // 디버그용: 현재 체력 출력
         
         if(hp<=0){
-            //게이지 충전
+
             IceItemManager iceManager = FindObjectOfType<IceItemManager>();
             if (iceManager != null)
             {

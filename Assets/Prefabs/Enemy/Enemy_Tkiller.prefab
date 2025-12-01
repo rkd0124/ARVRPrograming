@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2420330910692071931}
   m_Layer: 8
   m_Name: Enemy_Tkiller
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,6 +102,7 @@ MonoBehaviour:
   moveSpeed: 2
   attackDamage: 2
   attackCoolTime: 2
+  attackdistance: 1.5
 --- !u!65 &2755898548435418293
 BoxCollider:
   m_ObjectHideFlags: 0

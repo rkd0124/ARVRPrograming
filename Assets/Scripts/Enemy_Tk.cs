@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI; //NavMeshAgent
 
-public class Enemy : MonoBehaviour
+public class Enemy_Tk : MonoBehaviour, IEnemy
 {
     public int hp = 30; //체력
     //공격&이동 관련---
@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     public float attackdistance = 3.92f; // 공격 사거리
 
     float originalSpeed; //얼음 아이템을 위한 이동속도 백업용
+    float IceGauge = 5f; //얼음 게이지 채우기용
 
     private bool isAttacking = false; //쿨타임인지 아닌지
     //공격 이동---
@@ -56,7 +57,7 @@ public class Enemy : MonoBehaviour
             if(distance < 4) //왜인지는 모르겠는데 여기 숫자에 공격사거리 변수 넣으니 작동이 안됨
             //쌩으로 거리가 디버그용 그거 수치로 대충 적어둠
             {
-                Debug.Log(distance); //디버그용 거리측정
+                //Debug.Log(distance); //디버그용 거리측정
                 Tower tower = towerTarget.gameObject.GetComponent<Tower>();
                 StartCoroutine(AttackTower(tower));
             }
@@ -77,7 +78,6 @@ public class Enemy : MonoBehaviour
 
     IEnumerator AttackTower(Tower tower)
     {
-        Debug.Log("1111");
         if(isAttacking)
         {
             yield break; //공격 쿨타임중이면 종료
@@ -141,6 +141,13 @@ public class Enemy : MonoBehaviour
         Debug.Log(gameObject.name + " 현재 체력: " + hp); // 디버그용: 현재 체력 출력
         
         if(hp<=0){
+
+            IceItemManager iceManager = FindObjectOfType<IceItemManager>();
+            if (iceManager != null)
+            {
+                iceManager.AddGauge(IceGauge); // 예: 적 한 마리 처치 시 게이지 10 증가
+            }
+
             Destroy(gameObject);
             // 체력 0이면 죽음
         }
