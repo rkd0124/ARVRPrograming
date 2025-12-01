@@ -10,7 +10,7 @@ public class Enemy_fly : MonoBehaviour
     public float moveSpeed = 2.0f; //공격쿨타임
     public int attackDamage = 2; //데미지
     public float attackCoolTime = 2.0f;
-    public float attackdistance = 3.92f; // 공격 사거리
+    public float attackdistance = 7.5f; // 공격 사거리
 
     private bool isAttacking = false; //쿨타임인지 아닌지
     //공격 이동---
@@ -49,8 +49,8 @@ public class Enemy_fly : MonoBehaviour
             // 거리 기반 공격 추가 - 네비게이션 추가하니까 타워에 닿기 어렵더라
             float distance = Vector3.Distance(transform.position, towerTarget.position);
             Debug.Log(distance); //디버그용 거리측정
-            
-            if(distance < 4) //왜인지는 모르겠는데 여기 숫자에 공격사거리 변수 넣으니 작동이 안됨
+
+            if(distance < 7.5) //왜인지는 모르겠는데 여기 숫자에 공격사거리 변수 넣으니 작동이 안됨
             //쌩으로 거리가 디버그용 그거 수치로 대충 적어둠
             {
                 
