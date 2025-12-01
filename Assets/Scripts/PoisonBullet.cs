@@ -30,6 +30,7 @@ public class PoisonBullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //독 이동
         transform.position += transform.forward * speed * Time.deltaTime;
 
         // 경과 시간 업데이트
@@ -38,7 +39,7 @@ public class PoisonBullet : MonoBehaviour
         // 사거리나 생존시간 체크
         if (elapsedTime >= lifeTime || Vector3.Distance(startPos, transform.position) >= maxDistance)
         {
-            gameObject.SetActive(false);
+            gameObject.SetActive(false); //총알 삭제
         }
     }
 

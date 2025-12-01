@@ -568,6 +568,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 706410665}
     - target: {fileID: 4542192733891203543, guid: a094d422a1dcf3043aa004ba32335e7a, type: 3}
+      propertyPath: m_Name
+      value: Tower
+      objectReference: {fileID: 0}
+    - target: {fileID: 4542192733891203543, guid: a094d422a1dcf3043aa004ba32335e7a, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
@@ -577,15 +581,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8262193812474762745, guid: a094d422a1dcf3043aa004ba32335e7a, type: 3}
       propertyPath: m_Name
-      value: Tower
+      value: 1_Tower
       objectReference: {fileID: 0}
     - target: {fileID: 8262193812474762745, guid: a094d422a1dcf3043aa004ba32335e7a, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8262193812474762745, guid: a094d422a1dcf3043aa004ba32335e7a, type: 3}
       propertyPath: m_TagString
-      value: Tower
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 9156568738787422693, guid: a094d422a1dcf3043aa004ba32335e7a, type: 3}
       propertyPath: m_Shape
@@ -800,7 +804,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 439
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
