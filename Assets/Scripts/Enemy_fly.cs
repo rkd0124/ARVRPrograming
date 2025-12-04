@@ -32,6 +32,12 @@ public class Enemy_fly : MonoBehaviour, IEnemy
     //^^^코루틴 : 시간 일시정지 같은 느낌인데...
     // 시간 제어하면서 실행을 단계에 맞춰서?? 처리하는 애 라고 생각하면 편함
 
+    // 풀 관련 ---
+    public string enemyType;
+    private EnemyPool pool;
+    private WaveManager waveManager;
+    //풀 여기까지 ---
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -167,11 +173,43 @@ public class Enemy_fly : MonoBehaviour, IEnemy
                 iceManager.AddGauge(IceGauge); // 예: 적 한 마리 처치 시 게이지 10 증가
             }
 
-            Destroy(gameObject);
+             pool.Return(enemyType, this.gameObject);
             // 체력 0이면 죽음
         }
         
         //임시커밋용 주석
 
+    }
+    void OnEnable()
+    {
+        // HP 초기화
+        hp = 30;
+
+        // 공격 쿨다운 초기화
+        isAttacking = false;
+
+        // 이동속도 복구
+        moveSpeed = originalSpeed;
+
+        if (agent != null)
+        {
+            agent.enabled = true;
+            agent.speed = moveSpeed;
+        }
+
+        // 타워 재설정 (풀에서 꺼낼 때 Start가 다시 실행되지 않기 때문)
+        if (towerTarget == null)
+        {
+            GameObject towerObj = GameObject.FindGameObjectWithTag("Tower");
+            if (towerObj != null)
+                towerTarget = towerObj.transform;
+        }
+
+        // 독 데미지 코루틴 초기화
+        if (poisonRoutine != null)
+        {
+            StopCoroutine(poisonRoutine);
+            poisonRoutine = null;
+        }
     }
 }

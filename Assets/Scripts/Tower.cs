@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    public int hp = 10; //타워 체력
+    public int hp = 100; //타워 체력
+    public int maxHP = 100;
 
     // Start is called before the first frame update
     void Start()
@@ -26,5 +27,12 @@ public class Tower : MonoBehaviour
         if(hp<=0){
             Destroy(gameObject);
         }
+    }
+
+    public void RestoreToFull()
+    {
+        
+        hp = maxHP;   // 최대치로 회복
+        // 타워 UI 갱신 등 추가 로직 여기에
     }
 }

@@ -40,6 +40,7 @@ public class IceItemManager : MonoBehaviour
     public void ActivateIceItem() //얼음 발동         
     {
         if (!isReady) return; //얼음 발동이 아니면 종료
+
         StartCoroutine(SlowAllEnemies()); //감속 시작
         isReady = false; //아이템 사용 불가
         currentGauge = 0f; //게이지 초기화
@@ -51,7 +52,7 @@ public class IceItemManager : MonoBehaviour
         // Enemy 태그가 붙은 모든 오브젝트 가져오기
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        List<IEnemy> slowedEnemies = new List<IEnemy>(); //대상의 적들 리스트
+        List<IEnemy> targets = new List<IEnemy>(); //대상의 적들 리스트
 
         foreach (GameObject obj in enemies)
         {
@@ -59,14 +60,14 @@ public class IceItemManager : MonoBehaviour
             if (enemy != null)
             {
                 enemy.ApplySlow(slowPercent);
-                slowedEnemies.Add(enemy);
+                targets.Add(enemy);
             }
         }
 
         yield return new WaitForSeconds(slowDuration);
 
         // 원래 속도로 복구
-        foreach (IEnemy enemy in slowedEnemies)
+        foreach (IEnemy enemy in targets)
         {
             if (enemy != null)
                 enemy.RemoveSlow();
