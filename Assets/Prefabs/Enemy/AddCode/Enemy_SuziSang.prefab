@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 9024305116406763116}
   - component: {fileID: 5244513785461026779}
   - component: {fileID: 365604299766890921}
-  - component: {fileID: 5920965913111225144}
   - component: {fileID: 2499172723430906883}
   m_Layer: 8
   m_Name: Enemy_SuziSang
@@ -159,27 +158,9 @@ MonoBehaviour:
   attackDamage: 2
   attackCoolTime: 2
   attackdistance: 3.92
-  bombPrefab: {fileID: 0}
+  bombPrefab: {fileID: 9007848952136778601, guid: 1130948acfb8caf4794c11dd24f80e14, type: 3}
   bombDropPoint: {fileID: 3849337380382122942}
---- !u!114 &5920965913111225144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5021101819637120851}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bd81fde77cf44a4db600179b5ae273e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 30
-  moveSpeed: 2
-  attackDamage: 2
-  attackCoolTime: 2
-  attackdistance: 3.92
-  bombPrefab: {fileID: 0}
-  bombDropPoint: {fileID: 911448027098863989}
+  enemyType: 
 --- !u!65 &2499172723430906883
 BoxCollider:
   m_ObjectHideFlags: 0

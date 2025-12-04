@@ -27,6 +27,12 @@ public class Enemy_NK : MonoBehaviour, IEnemy
     //^^^코루틴 : 시간 일시정지 같은 느낌인데...
     // 시간 제어하면서 실행을 단계에 맞춰서?? 처리하는 애 라고 생각하면 편함
 
+    // 풀 관련 ---
+    public string enemyType;
+    private EnemyPool pool;
+    private WaveManager waveManager;
+    //풀 여기까지 ---
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -141,14 +147,14 @@ public class Enemy_NK : MonoBehaviour, IEnemy
         Debug.Log(gameObject.name + " 현재 체력: " + hp); // 디버그용: 현재 체력 출력
         
         if(hp<=0){
-
+            //게이지 충전
             IceItemManager iceManager = FindObjectOfType<IceItemManager>();
             if (iceManager != null)
             {
                 iceManager.AddGauge(IceGauge); // 예: 적 한 마리 처치 시 게이지 10 증가
             }
 
-            Destroy(gameObject);
+             pool.Return(enemyType, this.gameObject);
             // 체력 0이면 죽음
         }
         
