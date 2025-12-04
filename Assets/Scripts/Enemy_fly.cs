@@ -58,9 +58,18 @@ public class Enemy_fly : MonoBehaviour, IEnemy
     void Awake()
     {
         if (pool == null)
+        {
             pool = FindObjectOfType<EnemyPool>();
+        }
         if (pool == null)
+        {
             Debug.LogError("EnemyPool이 씬에 존재하지 않습니다!");
+        }
+        
+        if (string.IsNullOrEmpty(enemyType))
+        {
+            enemyType= "SuziSang"; //풀에서 나올때 타입 달고 나오기
+        }
     }
 
 
@@ -134,6 +143,7 @@ public class Enemy_fly : MonoBehaviour, IEnemy
         {
             return;
         } // 비활성화 시 무시
+        
         TakeDamage(firstDamage); //체력 감소람수 실행
 
         if(!gameObject.activeInHierarchy ||hp <= 0) //최초 데미지 받고 죽을수도 있음

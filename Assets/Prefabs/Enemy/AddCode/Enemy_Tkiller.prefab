@@ -103,6 +103,8 @@ MonoBehaviour:
   attackDamage: 2
   attackCoolTime: 2
   attackdistance: 1.5
+  enemyType: Tkiller
+  pool: {fileID: 0}
 --- !u!195 &2420330910692071931
 NavMeshAgent:
   m_ObjectHideFlags: 0

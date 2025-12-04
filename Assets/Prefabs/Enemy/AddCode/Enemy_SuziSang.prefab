@@ -160,7 +160,8 @@ MonoBehaviour:
   attackdistance: 3.92
   bombPrefab: {fileID: 9007848952136778601, guid: 1130948acfb8caf4794c11dd24f80e14, type: 3}
   bombDropPoint: {fileID: 3849337380382122942}
-  enemyType: 
+  enemyType: SuziSang
+  pool: {fileID: 0}
 --- !u!65 &2499172723430906883
 BoxCollider:
   m_ObjectHideFlags: 0

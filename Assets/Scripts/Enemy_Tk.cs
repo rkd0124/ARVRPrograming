@@ -56,9 +56,18 @@ public class Enemy_Tk : MonoBehaviour, IEnemy
     void Awake()
     {
         if (pool == null)
+        {
             pool = FindObjectOfType<EnemyPool>();
+        }
         if (pool == null)
+        {
             Debug.LogError("EnemyPool이 씬에 존재하지 않습니다!");
+        }
+        
+        if (string.IsNullOrEmpty(enemyType))
+        {
+            enemyType= "Tkiller"; //풀에서 나올때 타입 달고 나오기
+        }
     }
 
     // Update is called once per frame
