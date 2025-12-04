@@ -33,6 +33,7 @@ public class Tower : MonoBehaviour
     {
         
         hp = maxHP;   // 최대치로 회복
+        Debug.Log("타워 체력: "+hp); //디버그용
         // 타워 UI 갱신 등 추가 로직 여기에
     }
 }

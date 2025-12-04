@@ -73,4 +73,10 @@ public class IceItemManager : MonoBehaviour
                 enemy.RemoveSlow();
         }
     }
+
+    public void FullCharge() //웨이브 끝나면 바로 완충
+    {
+        currentGauge = requiredGauge; // 게이지 수치 최대화
+        isReady = true;               // 사용 가능 상태로 변경
+    }
 }

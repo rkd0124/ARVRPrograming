@@ -27,7 +27,12 @@ public class ResourceManager : MonoBehaviour
     public void RechargeAllResources()
     {
         bombCount = maxBombCount; // 폭탄 충전
-        iceGauge = maxIceGauge;// 얼음 게이지 충전
+        IceItemManager iceManager = FindObjectOfType<IceItemManager>(); //얼음
+        if (iceManager != null)
+        {
+            iceManager.FullCharge(); //얼음 호출
+            iceGauge = maxIceGauge; 
+        }
         foreach (var w in weaponSystems) w.ResetWeapon(); // 무기 초기화
     }
     
