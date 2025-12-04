@@ -129,7 +129,17 @@ public class Enemy_fly : MonoBehaviour, IEnemy
 
     // 독 관련 처리 ---
     public void ApplyPoison(int firstDamage, int dotDamage, float duration, float DamageTime){
+
+        if(!gameObject.activeInHierarchy ||hp <= 0) //이미 겜 오브젝트가 없거나 체력이 없을때
+        {
+            return;
+        } // 비활성화 시 무시
         TakeDamage(firstDamage); //체력 감소람수 실행
+
+        if(!gameObject.activeInHierarchy ||hp <= 0) //최초 데미지 받고 죽을수도 있음
+        {
+            return;
+        }
 
         if(poisonRoutine !=null){
             StopCoroutine(poisonRoutine);
@@ -143,11 +153,16 @@ public class Enemy_fly : MonoBehaviour, IEnemy
 
     }
 
+
     IEnumerator PoisonTick(int dot, float duration, float DamageTime){
         float remain = duration;
 
         while (remain>0){
             TakeDamage(dot);
+            if(hp <= 0){
+                poisonRoutine = null; // 즉시 null 처리
+                yield break;
+            }
             yield return new WaitForSeconds(DamageTime);//DamageTime초 기다리고 다음줄 실행
             remain -= DamageTime; //쿨타임 DamageTime초 감소
         }
@@ -165,7 +180,12 @@ public class Enemy_fly : MonoBehaviour, IEnemy
     public void RemoveSlow() //얼음 지속시간 끝
     {
         moveSpeed = originalSpeed;
-        agent.speed = originalSpeed;
+        
+        // [수정] agent가 null이 아닐 때만 접근하도록 보호
+        if (agent != null)
+        {
+            agent.speed = originalSpeed;
+        }
     }
     //얼음 처리 여기까지 ----
 
