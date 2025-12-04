@@ -50,6 +50,14 @@ public class Enemy_NK : MonoBehaviour, IEnemy
 
     }
 
+    void Awake()
+    {
+        if (pool == null)
+            pool = FindObjectOfType<EnemyPool>();
+        if (pool == null)
+            Debug.LogError("EnemyPool이 씬에 존재하지 않습니다!");
+    }
+
     // Update is called once per frame
     void Update()
     {
