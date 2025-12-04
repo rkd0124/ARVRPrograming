@@ -6,6 +6,7 @@ using UnityEngine.AI; //NavMeshAgent
 public class Enemy_Tk : MonoBehaviour, IEnemy
 {
     public int hp = 30; //체력
+    int hpMax; // 최대 체력
     //공격&이동 관련---
     public float moveSpeed = 2.0f; //이동속도
     public int attackDamage = 2; //데미지
@@ -40,6 +41,8 @@ public class Enemy_Tk : MonoBehaviour, IEnemy
         agent.speed = moveSpeed;
 
         originalSpeed = moveSpeed;   // 얼음 대비용
+
+        hpMax = hp;
 
         GameObject towerObj = GameObject.FindGameObjectWithTag("Tower");
         // 타워찾아서
@@ -154,20 +157,18 @@ public class Enemy_Tk : MonoBehaviour, IEnemy
                 iceManager.AddGauge(IceGauge); // 예: 적 한 마리 처치 시 게이지 10 증가
             }
 
-             // 풀과 enemyType이 null이 아닌 경우에만 반환
-            if(pool != null && !string.IsNullOrEmpty(enemyType))
+            WaveManager waveManager = FindObjectOfType<WaveManager>();
+            if(waveManager != null) //웨이브 관리자 잇으면
+            {
+                waveManager.OnEnemyKilled();
+            }
+            if(pool != null)
             {
                 pool.Return(enemyType, this.gameObject);
             }
-            else
-            {
-                Debug.LogWarning("EnemyPool 또는 enemyType이 설정되지 않았습니다!");
-                // 풀이나 타입이 없으면 그냥 Destroy로 제거
-                Destroy(this.gameObject);
-            }
+            if(pool == null)
+                Debug.LogWarning("EnemyPool- null");
         }
-        
-        //임시커밋용 주석
 
     }
 }
