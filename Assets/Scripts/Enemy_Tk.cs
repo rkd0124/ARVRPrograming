@@ -30,8 +30,9 @@ public class Enemy_Tk : MonoBehaviour, IEnemy
 
     // 풀 관련 ---
     public string enemyType;
-    private EnemyPool pool;
     private WaveManager waveManager;
+
+    public EnemyPool pool;
     //풀 여기까지 ---
     
     // Start is called before the first frame update
@@ -162,8 +163,14 @@ public class Enemy_Tk : MonoBehaviour, IEnemy
             {
                 waveManager.OnEnemyKilled();
             }
+
             if(pool != null)
             {
+                if(poisonRoutine != null)
+                {
+                    StopCoroutine(poisonRoutine);
+                    poisonRoutine = null;
+                }
                 pool.Return(enemyType, this.gameObject);
             }
             if(pool == null)

@@ -29,7 +29,7 @@ public class Enemy_NK : MonoBehaviour, IEnemy
 
     // 풀 관련 ---
     public string enemyType;
-    private EnemyPool pool;
+    public EnemyPool pool;
     private WaveManager waveManager;
     //풀 여기까지 ---
     
@@ -154,11 +154,23 @@ public class Enemy_NK : MonoBehaviour, IEnemy
                 iceManager.AddGauge(IceGauge); // 예: 적 한 마리 처치 시 게이지 10 증가
             }
 
-             pool.Return(enemyType, this.gameObject);
-            // 체력 0이면 죽음
+            WaveManager waveManager = FindObjectOfType<WaveManager>();
+            if(waveManager != null) //웨이브 관리자 잇으면
+            {
+                waveManager.OnEnemyKilled();
+            }
+            if(poisonRoutine != null)
+            {
+                StopCoroutine(poisonRoutine);
+                poisonRoutine = null;
+            }
+            if(pool != null)
+            {
+                pool.Return(enemyType, this.gameObject);
+            }
+            if(pool == null)
+                Debug.LogWarning("EnemyPool- null");
         }
-        
-        //임시커밋용 주석
 
     }
 }
