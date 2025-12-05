@@ -200,7 +200,7 @@ public class Enemy_fly : MonoBehaviour, IEnemy
     //얼음 처리 여기까지 ----
 
     // 체력감소
-    void TakeDamage(int amount){
+    public void TakeDamage(int amount){
         hp -= amount;
         Debug.Log(gameObject.name + " 현재 체력: " + hp); // 디버그용: 현재 체력 출력
         
