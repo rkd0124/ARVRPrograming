@@ -21,6 +21,7 @@ public class Fire : MonoBehaviour
 
     private bool isHolding = false; // 버튼 누름 여부
     private float tickTimer = 0f; // Tick 누적 시간
+    public bool followCameraLook = true; // 체크하면 카메라가 보는 곳으로 총구가 향함
 
     [Header("Effect")]
     public ParticleSystem fireEffect; //이펙트
@@ -35,7 +36,7 @@ public class Fire : MonoBehaviour
             fireEffect.Stop();
         }
 
-        // fireOrigin 안전장치
+        // fireOrigin 안전장치 - 오리진 없으면 그냥 플레이어 위치로 넣은거
         if (fireOrigin == null) fireOrigin = transform;
     }
 
@@ -43,6 +44,11 @@ public class Fire : MonoBehaviour
     {
         // 파티클 모양 실시간 동기화
         // 게임 도중 인스펙터에서 range나 angle을 바꾸면 이펙트도 같이 변함
+        if (followCameraLook)
+        {
+            UpdateAimDirection();
+        }
+
         UpdateParticleSettings();
 
         // 1. 입력 감지
@@ -86,6 +92,15 @@ public class Fire : MonoBehaviour
                     if (gauge > maxGauge) gauge = maxGauge;
                 }
             }
+        }
+    }
+
+    void UpdateAimDirection() //카메라 방향 동기화
+    {
+        if (Camera.main != null)
+        {
+            // 카메라의 회전값과 똑같이 맞춤 (위/아래/좌/우 모두 동기화)
+            fireOrigin.rotation = Camera.main.transform.rotation;
         }
     }
 
@@ -144,7 +159,7 @@ public class Fire : MonoBehaviour
 
             float dot = Vector3.Dot(fireOrigin.forward, dirToTarget);
             float theta = Mathf.Acos(dot) * Mathf.Rad2Deg;
-
+            
             if (theta <= angle / 2f)
             {
                 var enemyTk = hit.GetComponent<Enemy_Tk>();
