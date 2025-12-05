@@ -15,30 +15,41 @@ public class Fire : MonoBehaviour
     public int baseDamage = 1; //기본 데미지
 
     [Header("Attack Range")]
-    public float range = 2f; // 공격 반경          
-    public float angle = 100f; // 부채꼴 각도  
+    public float range = 2f; // 공격 반경           
+    [Range(0, 180)] public float angle = 120f; // 부채꼴 각도 (슬라이더 추가)
     public LayerMask enemyMask; // 적 Layer
 
     private bool isHolding = false; // 버튼 누름 여부
     private float tickTimer = 0f; // Tick 누적 시간
 
     [Header("Effect")]
-    public ParticleSystem fireEffect;     
+    public ParticleSystem fireEffect; //이펙트
+    public Transform fireOrigin; // 불이 실제로 나가는 위치 (총구/손끝)    
 
     void Start()
     {
         gauge = maxGauge;
         // 시작할 때 이펙트가 켜져있으면 끈다
-        if (fireEffect != null) fireEffect.Stop(); 
+        if (fireEffect != null)
+        {
+            fireEffect.Stop();
+        }
+
+        // fireOrigin 안전장치
+        if (fireOrigin == null) fireOrigin = transform;
     }
 
     void Update()
     {
+        // 파티클 모양 실시간 동기화
+        // 게임 도중 인스펙터에서 range나 angle을 바꾸면 이펙트도 같이 변함
+        UpdateParticleSettings();
+
         // 1. 입력 감지
         isHolding = Input.GetKey(KeyCode.R);
 
-        // 2. 이펙트 처리 함수 호출 (이름 수정됨: FireEffect -> AttackEffect)
-        AttackEffect(); 
+        // 2. 이펙트 처리 함ㅅ
+        AttackEffect();
 
         // 3. 게이지 및 데미지 처리
         tickTimer += Time.deltaTime;
@@ -50,14 +61,14 @@ public class Fire : MonoBehaviour
             // 버튼 누름 AND 게이지 있음
             if (isHolding && gauge > 0f)
             {
-                gauge -= consumePerTick;  
-                
+                gauge -= consumePerTick;
+
                 // 게이지가 바닥나면 0으로 고정
                 if (gauge <= 0f)
                 {
                     gauge = 0f;
                     // 게이지가 다 떨어지면 이펙트도 즉시 끔
-                    if (fireEffect != null) fireEffect.Stop(); 
+                    if (fireEffect != null) fireEffect.Stop();
                 }
                 else
                 {
@@ -76,6 +87,29 @@ public class Fire : MonoBehaviour
                 }
             }
         }
+    }
+
+    //파티클 설정을 스크립트 변수와 강제 동기화
+    void UpdateParticleSettings()
+    {
+        if (fireEffect == null) return;
+
+        var main = fireEffect.main;
+        var shape = fireEffect.shape;
+
+        // 파티클 모양을 Cone(원뿔)으로 강제 설정
+        if (shape.enabled == false) shape.enabled = true;
+        if (shape.shapeType != ParticleSystemShapeType.Cone) shape.shapeType = ParticleSystemShapeType.Cone;
+
+        // 1. 사거리 동기화 (속도를 고정하고 수명을 조절)
+        // 불꽃이 날아가는 속도
+        float particleSpeed = 8f; 
+        main.startSpeed = particleSpeed;
+        // 거리 = 속도 * 시간 이므로, 시간(수명) = 거리 / 속도
+        main.startLifetime = range / particleSpeed;
+
+        // 2. 각도 동기화
+        shape.angle = angle / 2f;
     }
 
     // 이펙트 켜고 끄는 함수
@@ -102,25 +136,43 @@ public class Fire : MonoBehaviour
     // 범위 내 적들에게 부채꼴 판정 후 데미지 적용
     void ApplyRadialDamage()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, range, enemyMask);
+        Collider[] hits = Physics.OverlapSphere(fireOrigin.position, range, enemyMask);
 
         foreach (var hit in hits)
         {
-            Vector3 dirToTarget = (hit.transform.position - transform.position).normalized;
+            Vector3 dirToTarget = (hit.transform.position - fireOrigin.position).normalized;
 
-            float dot = Vector3.Dot(transform.forward, dirToTarget);
+            float dot = Vector3.Dot(fireOrigin.forward, dirToTarget);
             float theta = Mathf.Acos(dot) * Mathf.Rad2Deg;
 
             if (theta <= angle / 2f)
             {
                 var enemyTk = hit.GetComponent<Enemy_Tk>();
                 var enemyNK = hit.GetComponent<Enemy_NK>();
-                var enemyFly = hit.GetComponent<Enemy_fly>(); 
+                var enemyFly = hit.GetComponent<Enemy_fly>();
 
                 if (enemyTk != null) enemyTk.TakeDamage(baseDamage);
                 if (enemyNK != null) enemyNK.TakeDamage(baseDamage);
                 if (enemyFly != null) enemyFly.TakeDamage(baseDamage);
             }
         }
+    }
+
+    private void OnDrawGizmosSelected() //범위 확인용이라 지워도 ㅇㅋ
+    {
+        // 기준점이 없으면 자기 자신을 기준으로 그리기
+        Transform drawOrigin = fireOrigin != null ? fireOrigin : transform;
+
+        // 1. 전체 사거리 원 그리기 (빨간색)
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(drawOrigin.position, range);
+
+        // 2. 부채꼴 각도 표시 선 그리기 (노란색)
+        Vector3 leftDir = Quaternion.Euler(0, -angle / 2, 0) * drawOrigin.forward;
+        Vector3 rightDir = Quaternion.Euler(0, angle / 2, 0) * drawOrigin.forward;
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(drawOrigin.position, leftDir * range);
+        Gizmos.DrawRay(drawOrigin.position, rightDir * range);
     }
 }
