@@ -26,7 +26,13 @@ public class ResourceManager : MonoBehaviour
     // 웨이브 승리 시 모든 리소스 초기화
     public void RechargeAllResources()
     {
-        bombCount = maxBombCount; // 폭탄 충전
+        Player_BombLauncher BombLuncher = FindObjectOfType<Player_BombLauncher>(); //폭탄
+        if (BombLuncher != null)
+        {
+            BombLuncher.ResetBombs();
+            bombCount = maxBombCount; // 폭탄 충전
+        }
+
         IceItemManager iceManager = FindObjectOfType<IceItemManager>(); //얼음
         if (iceManager != null)
         {

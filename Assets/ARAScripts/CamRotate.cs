@@ -6,6 +6,8 @@ public class CamRotate : MonoBehaviour
     
     public float sensitivity = 200;
 
+    public Transform playerRoot;
+
     void Start()
     {
         
@@ -16,14 +18,11 @@ public class CamRotate : MonoBehaviour
     void Update()
     {
        
-        float x = Input.GetAxis("Mouse Y");
-        float y = Input.GetAxis("Mouse X");
+        float yRotation = ARAVRInput.GetAxis("Horizontal", ARAVRInput.Controller.RTouch);
 
-        angle.x += x * sensitivity * Time.deltaTime;
-        angle.y += y * sensitivity * Time.deltaTime;
-
-        angle.x = Mathf.Clamp(angle.x, -90, 90);
-
-        transform.eulerAngles = new Vector3(-angle.x, angle.y, transform.eulerAngles.z);
+        if (Mathf.Abs(yRotation) > 0.01f)
+        {
+            playerRoot.Rotate(Vector3.up * yRotation * sensitivity * Time.deltaTime);
+        }
     }
 }
