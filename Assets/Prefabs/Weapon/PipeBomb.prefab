@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 4976233958972110811}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -26.786516, y: -13.768557, z: -3.1052055}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4841,7 +4841,7 @@ GameObject:
   - component: {fileID: 2767168102203411101}
   - component: {fileID: 7971360248106642914}
   - component: {fileID: 7623631873191487537}
-  - component: {fileID: 1318751052122076494}
+  - component: {fileID: 6885821013953714681}
   m_Layer: 0
   m_Name: PipeBomb
   m_TagString: Untagged
@@ -4878,7 +4878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc85c9af41408a4a968ed90d1d70b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionRadius: 5
+  explosionRadius: 10
   explosionDamage: 10
   targetLayer:
     serializedVersion: 2
@@ -4911,8 +4911,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &1318751052122076494
-MeshCollider:
+--- !u!65 &6885821013953714681
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4926,13 +4926,12 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2034583200213810725
 PrefabInstance:
   m_ObjectHideFlags: 0

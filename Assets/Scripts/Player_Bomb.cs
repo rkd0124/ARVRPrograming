@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player_Bomb : MonoBehaviour
 {
     [Header("Explosion Settings")]
-    public float explosionRadius = 5f; // 폭발 범위
+    public float explosionRadius = 10f; // 폭발 범위
     public int explosionDamage = 10; // 폭발 데미지
     public LayerMask targetLayer; // 적 레이어 (Enemy)
     public GameObject explosionEffect; // 폭발 이펙트 프리팹
@@ -13,7 +13,7 @@ public class Player_Bomb : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     
@@ -24,10 +24,10 @@ public class Player_Bomb : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
         // 'Player' 태그를 가지고 있다면 무시
-        if (other.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             return; 
         }
@@ -38,13 +38,15 @@ public class Player_Bomb : MonoBehaviour
 
     void Explode()
     {
-        // 1. 폭발 이펙트 생성
+        //폭발 이펙트 생성
         if (explosionEffect != null)
         {
-            Instantiate(explosionEffect, transform.position, Quaternion.identity);
+            GameObject effect = Instantiate(explosionEffect, transform.position, Quaternion.identity);
+
+            Destroy(effect, 2f);
         }
 
-        // 2. 범위 내 적 감지
+        //범위 내 적 감지
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, targetLayer);
 
         foreach (Collider hit in hits)
@@ -67,7 +69,7 @@ public class Player_Bomb : MonoBehaviour
             }
         }
 
-        // 3. 폭탄 오브젝트 제거
+        // 폭탄 오브젝트 제거
         Destroy(gameObject);
     }
     // 범위 확인용 기즈모
