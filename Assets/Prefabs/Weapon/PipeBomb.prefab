@@ -4884,6 +4884,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   explosionEffect: {fileID: 4976233958972110811}
+  fuseTime: 5
 --- !u!54 &7623631873191487537
 Rigidbody:
   m_ObjectHideFlags: 0
