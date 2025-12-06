@@ -6140,10 +6140,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Tkiller
       objectReference: {fileID: 0}
-    - target: {fileID: 570794010097880206, guid: 3c28d9b9bece1214886362eb48aa882c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1074197423892774152, guid: 3c28d9b9bece1214886362eb48aa882c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 36.58
