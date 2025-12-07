@@ -97,7 +97,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1836881280072700656, guid: 415997283d251db40b45a8067bafafd9, type: 3}
+  - {fileID: 2100000, guid: e8191fa78da24c0438e25b3ef8815757, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -153,14 +153,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bd81fde77cf44a4db600179b5ae273e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 30
+  hp: 15
   moveSpeed: 2
   attackDamage: 2
   attackCoolTime: 2
   attackdistance: 3.92
-  bombPrefab: {fileID: 9007848952136778601, guid: 1130948acfb8caf4794c11dd24f80e14, type: 3}
+  bombPrefab: {fileID: 919132149155446097, guid: e795938da73d0c9479c0010e0e18e5e4, type: 3}
   bombDropPoint: {fileID: 3849337380382122942}
-  enemyType: 
+  enemyType: SuziSang
 --- !u!65 &2499172723430906883
 BoxCollider:
   m_ObjectHideFlags: 0

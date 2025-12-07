@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8135046720185351690, guid: 599e7812db951c143b07bbca0b608ffe, type: 3}
+  - {fileID: 2100000, guid: 804c42e22a8549747a664fc824cb7b2e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -98,11 +98,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee5e62c8a610ef64eae3e9a86e5e3121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 40
+  hp: 10
   moveSpeed: 2
   attackDamage: 2
   attackCoolTime: 2
   attackdistance: 1.5
+  enemyType: Tkiller
 --- !u!195 &2420330910692071931
 NavMeshAgent:
   m_ObjectHideFlags: 0
