@@ -35,7 +35,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Overlay UI
   - Water
   - UI
   - Tower
@@ -43,7 +43,7 @@ TagManager:
   - Enemy
   - Ground
   - Bomb
-  - 
+  - Terrain
   - 
   - 
   - 
