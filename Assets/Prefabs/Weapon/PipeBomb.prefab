@@ -4842,7 +4842,7 @@ GameObject:
   - component: {fileID: 7971360248106642914}
   - component: {fileID: 7623631873191487537}
   - component: {fileID: 6885821013953714681}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PipeBomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
