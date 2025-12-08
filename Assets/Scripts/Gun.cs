@@ -53,7 +53,7 @@ public class Gun : MonoBehaviour
         // 마우스용 코드 여기까지-------
     }
 
-    void PoisonFire()
+    public void PoisonFire()
     {
         poisonEffect.Stop();
         poisonEffect.Play();

@@ -19,7 +19,7 @@ public class Fire : MonoBehaviour
     [Range(0, 180)] public float angle = 120f; // 부채꼴 각도 (슬라이더 추가)
     public LayerMask enemyMask; // 적 Layer
 
-    private bool isHolding = false; // 버튼 누름 여부
+    public bool isHolding = false; // 버튼 누름 여부
     private float tickTimer = 0f; // Tick 누적 시간
     public bool followCameraLook = true; // 체크하면 카메라가 보는 곳으로 총구가 향함
 
