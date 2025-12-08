@@ -6,6 +6,7 @@ using UnityEngine.AI; //NavMeshAgent
 public class Enemy_NK : MonoBehaviour, IEnemy
 {
     public int hp = 30; //체력
+    public int nk_score = 20; //점수
     //공격&이동 관련---
     public float moveSpeed = 2.0f; //이동속도
     public int attackDamage = 2; //데미지
@@ -183,7 +184,8 @@ public class Enemy_NK : MonoBehaviour, IEnemy
     public void TakeDamage(int amount){
         hp -= amount;
         Debug.Log(gameObject.name + " 현재 체력: " + hp); // 디버그용: 현재 체력 출력
-        
+        Score_add.Score_plus(NK_score);
+
         if(hp<=0){
             //게이지 충전
             IceItemManager iceManager = FindObjectOfType<IceItemManager>();
