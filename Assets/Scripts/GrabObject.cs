@@ -19,6 +19,10 @@ public class GrabObject : MonoBehaviour
     Quaternion prevRot;
     public float rotPower = 5;
 
+    public bool isRemoteGrab = true;
+
+    public float remoteGrabDistance = 20;
+
 
     // Start is called before the first frame update
     void Start()
@@ -102,7 +106,7 @@ public class GrabObject : MonoBehaviour
 
             deltaRotation.ToAngleAxis(out angle, out axis);
             Vector3 angularVelocity = (1.0f / Time.deltaTime)*angle*axis;
-
+            grabbedObject.GetComponent<Rigidbody>().angularVelocity = angularVelocity;
 
 
             grabbedObject = null;
