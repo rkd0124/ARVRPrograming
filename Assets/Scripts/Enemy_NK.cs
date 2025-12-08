@@ -7,6 +7,8 @@ public class Enemy_NK : MonoBehaviour, IEnemy
 {
     public int hp = 30; //체력
     public int nk_score = 20; //점수
+    Score_add scoreManager; //점수 매니저
+
     //공격&이동 관련---
     public float moveSpeed = 2.0f; //이동속도
     public int attackDamage = 2; //데미지
@@ -37,6 +39,7 @@ public class Enemy_NK : MonoBehaviour, IEnemy
     // Start is called before the first frame update
     void Start()
     {
+        scoreManager = FindObjectOfType<Score_add>(); //점수 매니저 불러오기 
         agent = GetComponent<NavMeshAgent>();
         agent.speed = moveSpeed;
 
@@ -184,7 +187,7 @@ public class Enemy_NK : MonoBehaviour, IEnemy
     public void TakeDamage(int amount){
         hp -= amount;
         Debug.Log(gameObject.name + " 현재 체력: " + hp); // 디버그용: 현재 체력 출력
-        Score_add.Score_plus(NK_score);
+        scoreManager.Score_plus(nk_score);
 
         if(hp<=0){
             //게이지 충전
