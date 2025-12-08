@@ -27,6 +27,7 @@ public static class ARAVRInput
 #elif Oculus
         One = OVRInput.Button.One,
         Two = OVRInput.Button.Two,
+        Three = OVRInput.Button.Three, //지피티가 넣으래 왼쪽 X버튼
         Thumbstick = OVRInput.Button.PrimaryThumbstick,
         IndexTrigger = OVRInput.Button.PrimaryIndexTrigger,
         HandTrigger = OVRInput.Button.PrimaryHandTrigger
