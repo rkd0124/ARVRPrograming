@@ -52,6 +52,24 @@ public class GrabObject : MonoBehaviour
             int closest = -1;
             float closestDistance = float.MaxValue; //가장 가까운 폭탄
 
+            if(isRemoteGrab)
+            {
+                Ray ray = new Ray(ARAVRInput.RHandPosition, ARAVRInput.RHandDirection);
+
+                RaycastHit hitInfo;
+
+                if(Physics.SphereCast(ray, 0.5f, out hitInfo, remoteGrabDistance, grabbedLayer))
+                {
+                    isGrabbing = true;
+
+                    grabbedObject = hitInfo.transform.gameObject;
+
+                    StartCoroutine(GrabbingAnimation());
+                }
+
+                return;
+            }
+
             for (int i = 0; i < hitObjects.Length; i++){
                 var rigid = hitObjects[i].GetComponent<Rigidbody>();
                 if (rigid == null) continue;
@@ -80,6 +98,36 @@ public class GrabObject : MonoBehaviour
                 prevRot = ARAVRInput.RHand.rotation;
             }
         }
+    }
+
+    IEnumerator GrabbingAnimation()
+    {
+        grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
+
+        prevPos = ARAVRInput.RHandPosition;
+
+        prevRot = ARAVRInput.RHand.rotation;
+
+        Vector3 startLocation = grabbedObject.transform.position;
+
+        Vector3 targetLocation = ARAVRInput.RHandPosition + ARAVRInput.RHandPosition * 0.1f;
+
+        float currentTime = 0;
+        float finishTime = 0.2f;
+
+        float elapsedRate = currentTime /finishTime;
+        while (elapsedRate<1)
+        {
+            currentTime += Time.deltaTime;
+            elapsedRate = currentTime / finishTime;
+            grabbedObject.transform.position = Vector3.Lerp(startLocation, targetLocation,elapsedRate);
+
+            yield return null;
+        }
+
+        grabbedObject.transform.position = targetLocation;
+        grabbedObject.transform.parent = ARAVRInput.RHand;
+
     }
 
     private void TryUngrab()
