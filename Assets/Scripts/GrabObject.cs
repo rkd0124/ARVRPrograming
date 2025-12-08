@@ -95,7 +95,7 @@ public class GrabObject : MonoBehaviour
 
             grabbedObject.transform.parent = null;
 
-            grabbedObject.GetComponent<Rigidbody>().linearVelocity = throwDirection * throwPower;
+            grabbedObject.GetComponent<Rigidbody>().velocity = throwDirection * throwPower;
 
             float angle;
             Vector3 axis;
@@ -103,7 +103,7 @@ public class GrabObject : MonoBehaviour
             deltaRotation.ToAngleAxis(out angle, out axis);
             Vector3 angularVelocity = (1.0f / Time.deltaTime)*angle*axis;
 
-            
+
 
             grabbedObject = null;
         }
