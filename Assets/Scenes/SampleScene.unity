@@ -6635,8 +6635,38 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5021101819637120851, guid: 256762754ed1d084a9fd2345616cbdb6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4202375396558365450}
   m_SourcePrefab: {fileID: 100100000, guid: 256762754ed1d084a9fd2345616cbdb6, type: 3}
+--- !u!1 &4202375396558365449 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5021101819637120851, guid: 256762754ed1d084a9fd2345616cbdb6, type: 3}
+  m_PrefabInstance: {fileID: 4202375396558365448}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4202375396558365450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4202375396558365449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd81fde77cf44a4db600179b5ae273e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 30
+  fly_score: 20
+  moveSpeed: 2
+  attackDamage: 2
+  attackCoolTime: 2
+  attackdistance: 7.5
+  bombPrefab: {fileID: 0}
+  bombDropPoint: {fileID: 0}
+  enemyType: 
+  pool: {fileID: 0}
 --- !u!1001 &6789489739118653252
 PrefabInstance:
   m_ObjectHideFlags: 0
