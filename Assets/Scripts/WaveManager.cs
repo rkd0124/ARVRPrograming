@@ -27,11 +27,13 @@ public class WaveManager : MonoBehaviour
 
     public Renderer mapRenderer;// 텍스쳐를 적용할 배경
 
+    private Score_add scoreManager; //시간당 점수
+
     // Start is called before the first frame update
     void Start()
     {
+        scoreManager = FindObjectOfType<Score_add>();
         StartWave(0);
-        
     }
 
     // Update is called once per frame
@@ -45,6 +47,11 @@ public class WaveManager : MonoBehaviour
         currentWave = waveIndex; // 현재 웨이브 번호 갱신
         WaveData data = waves[waveIndex]; // 리스트에서 웨이브의 정보 가져오기
 
+        if (scoreManager != null)
+        {
+            scoreManager.StartWaveTimer(); //타이머 발동
+        }
+         
         // 배경 텍스처 변경
         mapRenderer.material = backgroundMaterials[waveIndex];
 
@@ -96,6 +103,11 @@ public class WaveManager : MonoBehaviour
 
     void OnWaveCleared() //웨이브 클리어하면
     {
+        if (scoreManager != null)
+        {
+            scoreManager.CalculateTimeBonus();
+        } //시간 보너스 계산
+
         tower.RestoreToFull(); //타워의 체력 회복
         resources.RechargeAllResources(); //특수 아이템들(얼음 폭탄)
 
