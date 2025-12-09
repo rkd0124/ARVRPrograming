@@ -52,7 +52,8 @@ public class Fire : MonoBehaviour
         UpdateParticleSettings();
 
         // 1. 입력 감지 -> R에서 마우스 홀드로 바꾼거긴한데 테스트 용임
-        isHolding = Input.GetMouseButton(1);
+        //isHolding = Input.GetMouseButton(1);
+        isHolding = ARAVRInput.Get(ARAVRInput.Button.IndexTrigger); //VR
 
 
         // 2. 이펙트 처리 함ㅅ
