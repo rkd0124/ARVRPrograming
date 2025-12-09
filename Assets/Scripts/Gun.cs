@@ -9,6 +9,8 @@ public class Gun : MonoBehaviour
     AudioSource poisonAudio; // 독 사운드
     public Transform crosshair; //크로스헤어
 
+    public Transform gunPoint; // 총 발사 위치
+
     //여기 변수들은 자료에 없던거
     float CoolTime = 0.5f; // 쿨타임
     float lastFireTime = 0f; //마지막으로 총 발사한거 *쿨타임 구현에 필요
@@ -66,10 +68,16 @@ public class Gun : MonoBehaviour
         posion.transform.forward = ARAVRInput.RHandDirection;
         // ARVR----*/
 
-        //마우스용 코드
+        /*//마우스용 코드
         Camera cam = Camera.main;
         posion.Activate(cam.transform.position + cam.transform.forward * 0.5f, cam.transform.forward);
-        //마우스---
+        //마우스---*/
+
+        if (posion != null)
+        {
+            // 총구 위치에서, 총구가 바라보는 방향으로 발사
+            posion.Activate(gunPoint.position, gunPoint.forward);
+        }
 
 
         lastFireTime = Time.time;
