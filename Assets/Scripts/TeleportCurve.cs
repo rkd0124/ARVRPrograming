@@ -47,11 +47,11 @@ public class TeleportCurve : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ARAVRInput.GetDown(ARAVRInput.Button.HandTrigger, ARAVRInput.Controller.LTouch))
+        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger, ARAVRInput.Controller.LTouch))
         {
             lr.enabled = true; //라인 렌더러 컴포넌트 활성화
         }
-        else if (ARAVRInput.GetUp(ARAVRInput.Button.HandTrigger, ARAVRInput.Controller.LTouch))
+        else if (ARAVRInput.GetUp(ARAVRInput.Button.IndexTrigger, ARAVRInput.Controller.LTouch))
         {
             //lr.enabled = false;
             if (teleportCircleUI.gameObject.activeSelf)
@@ -64,7 +64,7 @@ public class TeleportCurve : MonoBehaviour
 
             teleportCircleUI.gameObject.SetActive(false);
         }
-        else if (ARAVRInput.Get(ARAVRInput.Button.HandTrigger, ARAVRInput.Controller.LTouch))
+        else if (ARAVRInput.Get(ARAVRInput.Button.IndexTrigger, ARAVRInput.Controller.LTouch))
         {
             MakeLines();
         }
