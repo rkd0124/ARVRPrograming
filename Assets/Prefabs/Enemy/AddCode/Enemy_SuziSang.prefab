@@ -61,9 +61,9 @@ Transform:
   m_GameObject: {fileID: 5021101819637120851}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 41.02, y: 1, z: 22.28}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3849337380382122942}
   - {fileID: 911448027098863989}
@@ -154,11 +154,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 30
+  fly_score: 20
   moveSpeed: 2
   attackDamage: 2
   attackCoolTime: 2
   attackdistance: 3.92
-  bombPrefab: {fileID: 9007848952136778601, guid: 1130948acfb8caf4794c11dd24f80e14, type: 3}
+  bombPrefab: {fileID: 6797434396324291784, guid: e253665c258dec348b96ae5c209e4362, type: 3}
   bombDropPoint: {fileID: 3849337380382122942}
   enemyType: SuziSang
   pool: {fileID: 0}
