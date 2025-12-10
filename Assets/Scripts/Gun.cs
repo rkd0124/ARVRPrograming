@@ -7,6 +7,7 @@ public class Gun : MonoBehaviour
     public Transform poisonImpact; // 독 피격
     ParticleSystem poisonEffect; //독 파편 파티클
     AudioSource poisonAudio; // 독 사운드
+    public AudioClip gunFireclip;   // 유니티에서 드래그해서 넣을 사운드
     public Transform crosshair; //크로스헤어
 
     public Transform gunPoint; // 총 발사 위치
@@ -59,6 +60,7 @@ public class Gun : MonoBehaviour
     {
         poisonEffect.Stop();
         poisonEffect.Play();
+        poisonAudio.PlayOneShot(gunFireclip);
 
         GameObject posionobj = bulletPool.GetBullet();
         PoisonBullet posion = posionobj.GetComponent<PoisonBullet>();
