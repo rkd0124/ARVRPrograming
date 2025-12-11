@@ -18,15 +18,16 @@ public class VideoFrame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            vp.Stop();
-        }
+        //if(ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger))
+        //{
+        //    vp.Stop();
+        //}
 
 
         //영상 재생
-        if (Input.GetKeyDown("space"))
+        if (ARAVRInput.GetDown(ARAVRInput.Button.Two, ARAVRInput.Controller.RTouch))
         {
+            Debug.Log("입력 감지됨");
             if (vp.isPlaying)
             {
                 vp.Pause();

@@ -9,6 +9,7 @@ public class GazePointerCtrl : MonoBehaviour
     public Transform uiCanvas; //캔버스
     public UnityEngine.UI.Image gazeImg; //캔버스에 들갈 이미지
     public Video360Play vp360; //360스피어에 추가된 영상 플레이 기능
+    public Transform vrCamera; //카메라 지정
 
     Vector3 defalutScale;
     public float uiScaleVal = 1f;
@@ -32,15 +33,14 @@ public class GazePointerCtrl : MonoBehaviour
     {
         // 캔버스 오브젝트의 스케일을 거리에 따라서 조종
         // 1. 카메라를 기준으로 전방 방향의 좌표 정보 담기 (각도)
-        Vector3 dir = transform.TransformPoint(Vector3.forward);
-        // 2. 카메라 전방으로 Ray설정
-        Ray ray = new Ray(transform.position, dir); //점에서 앞 방향으로 레이를 쏨
+        Vector3 dir = vrCamera.forward;
+        Ray ray = new Ray(vrCamera.position, dir);
         RaycastHit hitInfo;
         // 3. 레이에 부딫힌 경우 거리값이용해 uiCanvas의 크기를 조절
         if (Physics.Raycast(ray, out hitInfo))
         {
-            uiCanvas.localScale = defalutScale * uiScaleVal * hitInfo.distance; // UI 크기를 거리에 비례하게 조절
-            uiCanvas.position = transform.forward * hitInfo.distance; // UI 위치를 충돌 지점 근처로 이동 (카메라 앞쪽에 위치)
+            uiCanvas.localScale = defalutScale * uiScaleVal * hitInfo.distance;
+            uiCanvas.position = vrCamera.position + vrCamera.forward * hitInfo.distance; // UI 위치를 충돌 지점 근처로 이동 (카메라 앞쪽에 위치)
             if (hitInfo.transform.tag == "GazeObj")
             {
                 isHitObj = true;
@@ -49,11 +49,12 @@ public class GazePointerCtrl : MonoBehaviour
         }
         else // 4. 충돌 발생 안하는 경우 -> 기본 스케일 값으로 uiCanvas크기 조절
         {
-            uiCanvas.localScale = defalutScale * uiScaleVal; // 기본 스케일 유지
-            uiCanvas.position = transform.position + dir; // 카메라 앞 일정 거리로 위치시킴
+            uiCanvas.localScale = defalutScale * uiScaleVal;
+            uiCanvas.position = vrCamera.position + vrCamera.forward * 2.0f; 
         }
         // 5. uiCanvas가 사용자를 바라볼수 있도록 반전 (전면 방향을 반대로 바꾸기)
-        uiCanvas.forward = transform.forward * -1;
+        uiCanvas.rotation = vrCamera.rotation;
+
 
         //데이터 처리
         if (isHitObj) //오브젝트에 레이가 닿았을때
