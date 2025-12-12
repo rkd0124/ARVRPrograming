@@ -27,7 +27,7 @@ public class WeaponSwap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) || ARAVRInput.GetDown(ARAVRInput.Button.One))
         {
             isPoisonMode = !isPoisonMode; // 상태 반전 = true -> false or false -> true
             SetWeaponMode(isPoisonMode);  // 무기 적용
