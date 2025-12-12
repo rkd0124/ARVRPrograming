@@ -46,15 +46,16 @@ public class GrabObject : MonoBehaviour
 
     private void TryGrab()
     {
-        if (ARAVRInput.GetDown(ARAVRInput.Button.HandTrigger, ARAVRInput.Controller.RTouch))
+        if (ARAVRInput.GetDown(ARAVRInput.Button.HandTrigger, ARAVRInput.Controller.LTouch))
         {
-            Collider[] hitObjects = Physics.OverlapSphere(ARAVRInput.RHandPosition, grabRange, grabbedLayer);
+            Collider[] hitObjects = Physics.OverlapSphere(ARAVRInput.LHandPosition, grabRange, grabbedLayer);
             int closest = -1;
             float closestDistance = float.MaxValue; //가장 가까운 폭탄
+            Debug.Log("폭탄 잡았음");
 
             if(isRemoteGrab)
             {
-                Ray ray = new Ray(ARAVRInput.RHandPosition, ARAVRInput.RHandDirection);
+                Ray ray = new Ray(ARAVRInput.LHandPosition, ARAVRInput.LHandDirection);
 
                 RaycastHit hitInfo;
 
@@ -75,7 +76,7 @@ public class GrabObject : MonoBehaviour
                 if (rigid == null) continue;
 
                 Vector3 nextPos = hitObjects[i].transform.position;
-                float nextDistance = Vector3.Distance(nextPos, ARAVRInput.RHandPosition);
+                float nextDistance = Vector3.Distance(nextPos, ARAVRInput.LHandPosition);
 
                 if (nextDistance < closestDistance)
                 {
@@ -90,12 +91,12 @@ public class GrabObject : MonoBehaviour
 
                 grabbedObject = hitObjects[closest].gameObject;
 
-                grabbedObject.transform.parent = ARAVRInput.RHand;
+                grabbedObject.transform.parent = ARAVRInput.LHand;
 
                 grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
 
-                prevPos = ARAVRInput.RHandPosition;
-                prevRot = ARAVRInput.RHand.rotation;
+                prevPos = ARAVRInput.LHandPosition;
+                prevRot = ARAVRInput.LHand.rotation;
             }
         }
     }
@@ -104,13 +105,13 @@ public class GrabObject : MonoBehaviour
     {
         grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
 
-        prevPos = ARAVRInput.RHandPosition;
+        prevPos = ARAVRInput.LHandPosition;
 
-        prevRot = ARAVRInput.RHand.rotation;
+        prevRot = ARAVRInput.LHand.rotation;
 
         Vector3 startLocation = grabbedObject.transform.position;
 
-        Vector3 targetLocation = ARAVRInput.RHandPosition + ARAVRInput.RHandPosition * 0.1f;
+        Vector3 targetLocation = ARAVRInput.LHandPosition + ARAVRInput.LHandPosition * 0.1f;
 
         float currentTime = 0;
         float finishTime = 0.2f;
@@ -126,20 +127,20 @@ public class GrabObject : MonoBehaviour
         }
 
         grabbedObject.transform.position = targetLocation;
-        grabbedObject.transform.parent = ARAVRInput.RHand;
+        grabbedObject.transform.parent = ARAVRInput.LHand;
 
     }
 
     private void TryUngrab()
     {
-        Vector3 throwDirection = (ARAVRInput.RHandPosition - prevPos);
-        prevPos = ARAVRInput.RHandPosition;
+        Vector3 throwDirection = (ARAVRInput.LHandPosition - prevPos);
+        prevPos = ARAVRInput.LHandPosition;
 
-        Quaternion deltaRotation = ARAVRInput.RHand.rotation * Quaternion.Inverse(prevRot);
+        Quaternion deltaRotation = ARAVRInput.LHand.rotation * Quaternion.Inverse(prevRot);
 
-        prevRot = ARAVRInput.RHand.rotation;
+        prevRot = ARAVRInput.LHand.rotation;
 
-        if (ARAVRInput.GetUp(ARAVRInput.Button.HandTrigger, ARAVRInput.Controller.RTouch))
+        if (ARAVRInput.GetUp(ARAVRInput.Button.HandTrigger, ARAVRInput.Controller.LTouch))
         {
             isGrabbing = false;
 
