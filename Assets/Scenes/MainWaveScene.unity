@@ -9992,7 +9992,7 @@ PrefabInstance:
     - target: {fileID: 8463287854856806134, guid: 70e2f960e6919af4ca0ad55c3ee50b4b, type: 3}
       propertyPath: tower
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 482528773}
     - target: {fileID: 8463287854856806134, guid: 70e2f960e6919af4ca0ad55c3ee50b4b, type: 3}
       propertyPath: spawner
       value: 
@@ -10007,27 +10007,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8463287854856806134, guid: 70e2f960e6919af4ca0ad55c3ee50b4b, type: 3}
       propertyPath: waves.Array.data[1].NKCount
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8463287854856806134, guid: 70e2f960e6919af4ca0ad55c3ee50b4b, type: 3}
       propertyPath: waves.Array.data[2].NKCount
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8463287854856806134, guid: 70e2f960e6919af4ca0ad55c3ee50b4b, type: 3}
       propertyPath: waves.Array.data[0].TkillerCount
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8463287854856806134, guid: 70e2f960e6919af4ca0ad55c3ee50b4b, type: 3}
       propertyPath: waves.Array.data[1].TkillerCount
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8463287854856806134, guid: 70e2f960e6919af4ca0ad55c3ee50b4b, type: 3}
       propertyPath: waves.Array.data[2].TkillerCount
-      value: 1
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463287854856806134, guid: 70e2f960e6919af4ca0ad55c3ee50b4b, type: 3}
+      propertyPath: waves.Array.data[1].spawnInterval
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8463287854856806134, guid: 70e2f960e6919af4ca0ad55c3ee50b4b, type: 3}
       propertyPath: waves.Array.data[2].SuziSangCount
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
