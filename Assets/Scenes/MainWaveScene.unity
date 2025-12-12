@@ -8162,7 +8162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grabbedLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   grabRange: 0.2
   rotPower: 5
   isRemoteGrab: 1
