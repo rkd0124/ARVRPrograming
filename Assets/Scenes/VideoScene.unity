@@ -1847,6 +1847,51 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 152048207}
   m_SourcePrefab: {fileID: 100100000, guid: 1bc0b3fb1211a944e8d489d38e701540, type: 3}
+--- !u!1 &2058525531
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2058525533}
+  - component: {fileID: 2058525532}
+  m_Layer: 0
+  m_Name: Scene_Changer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2058525532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058525531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f23cd77929839a4ca9af9971e6af582, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainSceneName: MainWaveScene
+--- !u!4 &2058525533
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058525531}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 173.03976, y: 87.84826, z: 39.751335}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1860,3 +1905,4 @@ SceneRoots:
   - {fileID: 483678721}
   - {fileID: 1215914400}
   - {fileID: 619408105}
+  - {fileID: 2058525533}
