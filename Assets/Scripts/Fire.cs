@@ -10,6 +10,7 @@ public class Fire : MonoBehaviour
     public float consumePerTick = 4f; //게이지 소모량 0.5초당     
     public float recoverPerTick = 2f; //게이지 회복량 0.5초당  
     public float tickInterval = 0.5f; //데미지랑 게이지 처리   
+    public Transform crosshair; //크로스헤어
 
     [Header("Damage")]
     public int baseDamage = 1; //기본 데미지
@@ -25,7 +26,12 @@ public class Fire : MonoBehaviour
 
     [Header("Effect")]
     public ParticleSystem fireEffect; //이펙트
-    public Transform fireOrigin; // 불이 실제로 나가는 위치 (총구/손끝)    
+    public Transform fireOrigin; // 불이 실제로 나가는 위치 (총구/손끝)
+
+    [Header("Audio")]
+    public AudioSource audioSource; // AudioSource 컴포넌트 연결
+    public AudioClip fireClip; // 발사 중 재생할 오디오 클립
+    
 
     void Start()
     {
@@ -38,10 +44,18 @@ public class Fire : MonoBehaviour
 
         // fireOrigin 안전장치 - 오리진 없으면 그냥 플레이어 위치로 넣은거
         if (fireOrigin == null) fireOrigin = transform;
+
+        if (audioSource != null && fireClip != null)
+        {
+            audioSource.clip = fireClip;
+            audioSource.loop = true; 
+            audioSource.playOnAwake = false; 
+        }
     }
 
     void Update()
     {
+        ARAVRInput.DrawCrosshair(crosshair);
         // 파티클 모양 실시간 동기화
         // 게임 도중 인스펙터에서 range나 angle을 바꾸면 이펙트도 같이 변함
         if (followCameraLook)
@@ -139,6 +153,10 @@ public class Fire : MonoBehaviour
             {
                 fireEffect.Play();
             }
+            if (audioSource != null && !audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
         }
         else
         {
@@ -146,6 +164,10 @@ public class Fire : MonoBehaviour
             if (fireEffect != null && fireEffect.isPlaying)
             {
                 fireEffect.Stop();
+            }
+            if (audioSource != null && audioSource.isPlaying)
+            {
+                audioSource.Stop();
             }
         }
     }

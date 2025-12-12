@@ -16,6 +16,9 @@ public class Player_BombLauncher : MonoBehaviour
     public float requiredLookTime = 3.0f; // 바라봐야 하는 시간 (3초)
     private float lookTimer = 0f; // 현재 바라본 시간
     private Transform mainCameraTransform; // 메인 카메라 위치
+    
+    // BOMB 레이어의 인덱스를 저장할 변수 (추가)
+    private int bombLayer; 
 
     // Start is called before the first frame update
     void Start()
@@ -29,12 +32,18 @@ public class Player_BombLauncher : MonoBehaviour
         {
             Debug.LogError("Main Camera가 씬에 없습니다!");
         }
+
+        // BOMB 레이어의 인덱스를 미리 가져옵니다. (추가)
+        bombLayer = LayerMask.NameToLayer("Bomb");
+        if (bombLayer == -1) // 레이어가 존재하지 않을 경우를 대비
+        {
+            Debug.LogError("씬에 'BOMB'라는 이름의 레이어가 정의되어 있지 않습니다! 레이어를 추가해주세요.");
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
         CheckBombMaker(); // 폭탄 바라보기
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -96,6 +105,12 @@ public class Player_BombLauncher : MonoBehaviour
 
         // 2. 폭탄 생성
         GameObject bomb = Instantiate(bombPrefab, throwPoint.position, throwPoint.rotation);
+        
+        // 3. 생성된 폭탄에 BOMB 레이어 적용 (추가된 부분)
+        if (bombLayer != -1)
+        {
+            bomb.layer = bombLayer;
+        }
     }
 
     IEnumerator CooldownRoutine()

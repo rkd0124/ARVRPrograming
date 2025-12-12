@@ -8129,7 +8129,8 @@ MonoBehaviour:
   consumePerTick: 4
   recoverPerTick: 2
   tickInterval: 1
-  baseDamage: 1
+  crosshair: {fileID: 1990553994}
+  baseDamage: 2
   range: 9.92
   angle: 120
   enemyMask:
@@ -8139,6 +8140,8 @@ MonoBehaviour:
   followCameraLook: 1
   fireEffect: {fileID: 1426216679}
   fireOrigin: {fileID: 746280046}
+  audioSource: {fileID: 254075928}
+  fireClip: {fileID: 8300000, guid: 7792f729d69b901448e6d50ea285914a, type: 3}
 --- !u!114 &1707423621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8319,7 +8322,7 @@ MonoBehaviour:
   grabbedLayer:
     serializedVersion: 2
     m_Bits: 1024
-  grabRange: 0.1
+  grabRange: 0.3
   throwPower: 10
   rotPower: 5
 --- !u!1 &1730616540

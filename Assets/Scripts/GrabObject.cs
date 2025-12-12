@@ -80,7 +80,7 @@ public class GrabObject : MonoBehaviour
         Quaternion deltaRotation = ARAVRInput.LHand.rotation * Quaternion.Inverse(prevRot);
         prevRot = ARAVRInput.LHand.rotation; //���� ȸ�� ����
 
-        if (ARAVRInput.GetUp(ARAVRInput.Button.Thumbstick,ARAVRInput.Controller.LTouch))
+        if (ARAVRInput.GetUp(ARAVRInput.Button.HandTrigger,ARAVRInput.Controller.LTouch))
         {
             isGrabbing = false;
             grabbedObject.GetComponent<Rigidbody>().isKinematic = false; //���� ��� Ȱ��ȭ

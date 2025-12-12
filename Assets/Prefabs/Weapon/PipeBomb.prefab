@@ -4878,13 +4878,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc85c9af41408a4a968ed90d1d70b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionRadius: 3
+  explosionRadius: 5
   explosionDamage: 10
   targetLayer:
     serializedVersion: 2
     m_Bits: 256
   explosionEffect: {fileID: 4976233958972110811}
-  fuseTime: 5
+  fuseTime: 10
 --- !u!54 &7623631873191487537
 Rigidbody:
   m_ObjectHideFlags: 0
