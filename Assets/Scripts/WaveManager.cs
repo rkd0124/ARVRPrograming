@@ -32,6 +32,7 @@ public class WaveManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // [중요] 매니저를 먼저 찾고 웨이브 시작 (순서 수정됨)
         scoreManager = FindObjectOfType<Score_add>();
         StartWave(0);
     }
@@ -53,43 +54,33 @@ public class WaveManager : MonoBehaviour
         }
          
         // 배경 텍스처 변경
-        mapRenderer.material = backgroundMaterials[waveIndex];
+        if (waveIndex < backgroundMaterials.Length)
+        {
+            mapRenderer.material = backgroundMaterials[waveIndex];
+        }
 
         // 적 총합 계산
         enemiesToSpawn = data.TkillerCount + data.NKCount + data.SuziSangCount;
         enemiesAlive = enemiesToSpawn; // 살아있는 적을 적 총합으로 변경
 
         StartCoroutine(RunWave(data)); //적 소환
+        
+        Debug.Log($"웨이브 {waveIndex + 1} 시작!");
     }
 
     IEnumerator RunWave(WaveData data)
     {
-        int t = data.TkillerCount; // 소환 목표치 : tkiller세포
-        int n = data.NKCount; // 소환 목표치 : tkiller세포
-        int s = data.SuziSangCount; // 소환 목표치 : tkiller세포
+        int t = data.TkillerCount; 
+        int n = data.NKCount; 
+        int s = data.SuziSangCount; 
 
-        while (t > 0 || n > 0 || s > 0)// 셋중 하나라도 목표치 미달이면
+        while (t > 0 || n > 0 || s > 0)
         {
-            if (t > 0)
-            {
-                spawner.Spawn("Tkiller"); //소환
-                t--;
-            }
-
-            if (n > 0)
-            {
-                spawner.Spawn("NK"); //소환
-                n--;
-            }
-
-            if (s > 0)
-            {
-                spawner.Spawn("SuziSang"); //소환
-                s--;
-            }
+            if (t > 0) { spawner.Spawn("Tkiller"); t--; }
+            if (n > 0) { spawner.Spawn("NK"); n--; }
+            if (s > 0) { spawner.Spawn("SuziSang"); s--; }
 
             yield return new WaitForSeconds(data.spawnInterval);
-            //소환 쿨타임
         }
     }
 
@@ -103,20 +94,41 @@ public class WaveManager : MonoBehaviour
 
     void OnWaveCleared() //웨이브 클리어하면
     {
+        // 1. 점수 및 리소스 정산 (즉시 실행)
         if (scoreManager != null)
         {
             scoreManager.CalculateTimeBonus();
-        } //시간 보너스 계산
+        } 
 
-        tower.RestoreToFull(); //타워의 체력 회복
-        resources.RechargeAllResources(); //특수 아이템들(얼음 폭탄)
+        tower.RestoreToFull(); 
+        resources.RechargeAllResources(); 
 
+        Debug.Log("웨이브 클리어");
+
+        // 2. [수정됨] 바로 시작하지 않고, 5초 대기 코루틴 실행
+        StartCoroutine(WaitAndStartNextWave());
+    }
+
+    // [추가됨] 5초 대기 후 다음 웨이브를 시작하는 코루틴
+    IEnumerator WaitAndStartNextWave()
+    {
+        // 5초 동안 대기
+        yield return new WaitForSeconds(5.0f);
+
+        // 다음 웨이브가 있는지 확인 후 실행
         if (currentWave + 1 < waves.Count)
+        {
             StartWave(currentWave + 1); //다음 웨이브로
+        }
+        else //남은 웨이브 없다면
+        {
+            Debug.Log("모든 웨이브 클리어 (게임 승리)");
+            // 승리 UI넣으면 됨
+        }
     }
 
     public void OnTowerDestroyed()
     {
-        // 패배 처리 — 게임오버 화면 등 연결
+        // 패배 처리
     }
 }
