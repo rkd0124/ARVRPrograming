@@ -27,13 +27,15 @@ public class VideoFrame : MonoBehaviour
         //���� ���
         if (ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
         {
-            Debug.Log("�Է� ������");
+            
             if (vp.isPlaying)
             {
+                Debug.Log("Pause");
                 vp.Pause();
             }
             else
             {
+                Debug.Log("Play");
                 vp.Play();
             }
         }
