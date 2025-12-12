@@ -59,6 +59,7 @@ public class IceItemManager : MonoBehaviour
             IEnemy enemy = obj.GetComponent<IEnemy>();
             if (enemy != null)
             {
+                Debug.Log("theWorld");
                 enemy.ApplySlow(slowPercent);
                 targets.Add(enemy);
             }
