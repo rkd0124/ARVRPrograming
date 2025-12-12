@@ -19,8 +19,6 @@ public class Player_Bomb : MonoBehaviour
         Invoke("Explode", fuseTime); // 10초 시간 지나면 자동 폭발
     }
 
-    
-
     // Update is called once per frame
     void Update()
     {
@@ -35,7 +33,8 @@ public class Player_Bomb : MonoBehaviour
             return; 
         }
 
-        if (IsEnemy(collision.gameObject)) //적에게 직빵으로 맞으면 바로 폭발,
+        // 적에게 직빵으로 맞으면 바로 폭발,
+        if (IsEnemy(collision.gameObject))
         {
             Explode();
         }
@@ -75,9 +74,10 @@ public class Player_Bomb : MonoBehaviour
 
         foreach (Collider hit in hits)
         {
-            var enemyTk = hit.GetComponent<Enemy_Tk>();
-            var enemyNK = hit.GetComponent<Enemy_NK>();
-            var enemyFly = hit.GetComponent<Enemy_fly>();
+            // 자식/부모에 스크립트가 있을 가능성이 있으므로 GetComponentInParent 사용
+            var enemyTk = hit.GetComponentInParent<Enemy_Tk>();
+            var enemyNK = hit.GetComponentInParent<Enemy_NK>();
+            var enemyFly = hit.GetComponentInParent<Enemy_fly>();
 
             if (enemyTk != null)
             {
@@ -96,6 +96,7 @@ public class Player_Bomb : MonoBehaviour
         // 폭탄 오브젝트 제거
         Destroy(gameObject);
     }
+
     // 범위 확인용 기즈모
     private void OnDrawGizmos()
     {
