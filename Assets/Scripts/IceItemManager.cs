@@ -20,7 +20,7 @@ public class IceItemManager : MonoBehaviour
     // Update is called once per frame
     void Update() // Q키 입력 감지
     {
-        if (ARAVRInput.GetDown(ARAVRInput.Button.Three, ARAVRInput.Controller.LTouch))   // X 버튼
+        if (Input.GetKeyDown(KeyCode.Q) || ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.LTouch))   // X 버튼
         {
             Debug.Log(currentGauge);
             ActivateIceItem();             // 얼음 아이템 발동
