@@ -9,6 +9,11 @@ public class Player_Bomb : MonoBehaviour
     public int explosionDamage = 10; // 폭발 데미지
     public LayerMask targetLayer; // 적 레이어 (Enemy)
     public GameObject explosionEffect; // 폭발 이펙트 프리팹
+    
+    [Header("Audio")]
+    public AudioSource audioSource; // 폭탄 오브젝트의 AudioSource 연결
+    public AudioClip fuseSound;     // 퓨즈가 타는 소리 클립
+    public AudioClip explosionSound; // 폭발 시 재생할 오디오 클립
 
     public float fuseTime = 10f; // 10초 뒤 자동 폭발
     private bool hasExploded = false; //중복폭발 방지
@@ -16,7 +21,16 @@ public class Player_Bomb : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("Explode", fuseTime); // 10초 시간 지나면 자동 폭발
+        // 1. 퓨즈 소리 재생 시작
+        if (audioSource != null && fuseSound != null)
+        {
+            audioSource.clip = fuseSound;
+            audioSource.loop = true; // 퓨즈 소리는 반복 재생
+            audioSource.Play();
+        }
+
+        // 2. 퓨즈 시간이 지나면 자동 폭발 예약
+        Invoke("Explode", fuseTime); 
     }
 
     // Update is called once per frame
@@ -61,15 +75,28 @@ public class Player_Bomb : MonoBehaviour
         if (hasExploded) return;
         hasExploded = true;
 
-        //폭발 이펙트 생성
+        // 1. 퓨즈 소리 정지 (폭발하는 순간 멈춤)
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+        }
+
+        // 2. 폭발 오디오 재생 (AudioSource.PlayClipAtPoint 사용)
+        if (explosionSound != null)
+        {
+            // 폭발 소리는 폭탄 오브젝트가 사라져도 유지되어야 하므로 PlayClipAtPoint 사용
+            AudioSource.PlayClipAtPoint(explosionSound, transform.position);
+        }
+
+        // 3. 폭발 이펙트 생성
         if (explosionEffect != null)
         {
             GameObject effect = Instantiate(explosionEffect, transform.position, Quaternion.identity);
-
             Destroy(effect, 2f);
         }
 
-        //범위 내 적 감지
+        // 4. 범위 내 적 감지 및 데미지 적용
+        // 
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, targetLayer);
 
         foreach (Collider hit in hits)
@@ -93,7 +120,7 @@ public class Player_Bomb : MonoBehaviour
             }
         }
 
-        // 폭탄 오브젝트 제거
+        // 5. 폭탄 오브젝트 제거
         Destroy(gameObject);
     }
 
