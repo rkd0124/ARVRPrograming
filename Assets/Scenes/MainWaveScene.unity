@@ -1679,6 +1679,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 746280046}
     m_Modifications:
+    - target: {fileID: 130248857293727466, guid: eea4dd8aeb2bdb74880b140405e7b207, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1341485808306666232, guid: eea4dd8aeb2bdb74880b140405e7b207, type: 3}
       propertyPath: m_LocalScale.x
       value: 5.1813455
@@ -1731,9 +1735,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2726498428611692530, guid: eea4dd8aeb2bdb74880b140405e7b207, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861675498169083716, guid: eea4dd8aeb2bdb74880b140405e7b207, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4305373782501690750, guid: eea4dd8aeb2bdb74880b140405e7b207, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890564493049329939, guid: eea4dd8aeb2bdb74880b140405e7b207, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6654795352967460215, guid: eea4dd8aeb2bdb74880b140405e7b207, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6689398376953799252, guid: eea4dd8aeb2bdb74880b140405e7b207, type: 3}
       propertyPath: m_Name
       value: ARPG_Poison_Spread
+      objectReference: {fileID: 0}
+    - target: {fileID: 7455508440805841212, guid: eea4dd8aeb2bdb74880b140405e7b207, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7759878640852329345, guid: eea4dd8aeb2bdb74880b140405e7b207, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842391628191380758, guid: eea4dd8aeb2bdb74880b140405e7b207, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
