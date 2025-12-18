@@ -7,10 +7,12 @@ public class Tower : MonoBehaviour
     public int hp = 100; //타워 체력
     public int maxHP = 100;
 
+    public GameReport gameReport; // 결과 매니저
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameReport = FindObjectOfType<GameReport>();
     }
 
     // Update is called once per frame
@@ -25,6 +27,10 @@ public class Tower : MonoBehaviour
         Debug.Log("타워 체력: "+hp); //디버그용
 
         if(hp<=0){
+            if (gameReport != null)
+            {
+                gameReport.GameOver();
+            }
             Destroy(gameObject);
         }
     }

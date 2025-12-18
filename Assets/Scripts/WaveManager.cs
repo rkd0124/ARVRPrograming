@@ -29,11 +29,14 @@ public class WaveManager : MonoBehaviour
 
     private Score_add scoreManager; //시간당 점수
 
+    public GameReport gameReport; // 결과 매니저
+
     // Start is called before the first frame update
     void Start()
     {
         // [중요] 매니저를 먼저 찾고 웨이브 시작 (순서 수정됨)
         scoreManager = FindObjectOfType<Score_add>();
+        gameReport = FindObjectOfType<GameReport>();
         StartWave(0);
     }
 
@@ -122,8 +125,10 @@ public class WaveManager : MonoBehaviour
         }
         else //남은 웨이브 없다면
         {
-            Debug.Log("모든 웨이브 클리어 (게임 승리)");
-            // 승리 UI넣으면 됨
+            if (gameReport != null)
+            {
+                gameReport.GameWin(); // 승리 호출
+            }
         }
     }
 

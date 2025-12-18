@@ -4,20 +4,27 @@ using TMPro;
 public class TimerCanvas : MonoBehaviour
 {
     [Header("Timer Settings")]
-    public float totalTime = 60f;   // ÀüÃ¼ ½Ã°£ (ÃÊ)
-    public bool autoStart = true;   // ½ÃÀÛ ½Ã ÀÚµ¿ ½ÇÇà
+    public float totalTime = 60f;   // ï¿½ï¿½Ã¼ ï¿½Ã°ï¿½ (ï¿½ï¿½)
+    public bool autoStart = true;   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½
 
     [Header("UI")]
-    public TextMeshProUGUI timerText; // Canvas¿¡ ÀÖ´Â ÅØ½ºÆ®
+    public TextMeshProUGUI timerText; // Canvasï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ø½ï¿½Æ®
 
     [Header("Display")]
-    public bool showMinutes = true; // mm:ss Çü½Ä ¿©ºÎ
+    public bool showMinutes = true; // mm:ss ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     private float currentTime;
     private bool isRunning = false;
 
+    public GameReport gameReport; // ê²°ê³¼ ë§¤ë‹ˆì €
+
     void Start()
     {
+        if (gameReport == null)
+        {
+            gameReport = FindObjectOfType<GameReport>();
+        }
+
         currentTime = totalTime;
 
         if (autoStart)
@@ -36,13 +43,17 @@ public class TimerCanvas : MonoBehaviour
         {
             currentTime = 0f;
             isRunning = false;
+            if (gameReport != null)
+            {
+                gameReport.GameOver();
+            }
         }
 
         UpdateText();
     }
 
     // ===============================
-    // ¿ÜºÎ Á¦¾î¿ë ÇÔ¼ö
+    // ï¿½Üºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     // ===============================
     public void StartTimer()
     {
@@ -61,7 +72,7 @@ public class TimerCanvas : MonoBehaviour
     }
 
     // ===============================
-    // ÅØ½ºÆ® ¾÷µ¥ÀÌÆ®
+    // ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     // ===============================
     void UpdateText()
     {
