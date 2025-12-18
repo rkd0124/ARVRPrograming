@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class PoisonBullet : MonoBehaviour
 {
-    public int firstDamage = 5; // 1차 데미지
-    public int dotDamage = 1; // 도트 데미지
-    public float dotDuration = 3f; // 도트 지속시간
-    public float dotInterval = 1f; // 1초마다 도트딜 적용
-    public float speed = 20f; // 독 이동속도
-    public float lifeTime = 2f; //독 생존시간
-    public float maxDistance = 10f; //사거리
+    [Header("Damage")]
+    public int firstDamage = 5;
+    public int dotDamage = 1;
+    public float dotDuration = 3f;
+    public float dotInterval = 1f;
 
-    private Vector3 startPos; // 시작 위치
-    private float elapsedTime = 0f; // 경과 시간
+    [Header("Bullet")]
+    public float speed = 20f;
+    public float lifeTime = 2f;
+    public float maxDistance = 10f;
 
+    [Header("Hit VFX")]
+    public GameObject hitVFXPrefab;   // ⭐ 인스펙터에서 넣을 이펙트
+    public float vfxLifeTime = 2f;    // 이펙트 자동 삭제 시간
 
-    // Start is called before the first frame update
+    private Vector3 startPos;
+    private float elapsedTime = 0f;
 
     public void Activate(Vector3 position, Vector3 direction)
     {
@@ -27,19 +31,15 @@ public class PoisonBullet : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //독 이동
         transform.position += transform.forward * speed * Time.deltaTime;
 
-        // 경과 시간 업데이트
         elapsedTime += Time.deltaTime;
 
-        // 사거리나 생존시간 체크
         if (elapsedTime >= lifeTime || Vector3.Distance(startPos, transform.position) >= maxDistance)
         {
-            gameObject.SetActive(false); //총알 삭제
+            gameObject.SetActive(false);
         }
     }
 
@@ -47,30 +47,39 @@ public class PoisonBullet : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            // 적에게만 작동
+            // ===== 💥 히트 이펙트 생성 =====
+            SpawnHitVFX(transform.position);
+
+            // ===== 데미지 처리 =====
             var enemyTk = other.GetComponent<Enemy_Tk>();
             var enemyNK = other.GetComponent<Enemy_NK>();
             var enemyFly = other.GetComponent<Enemy_fly>();
 
             if (enemyTk != null)
-            {// 적에게 1차 데미지 + 도트 적용
-                enemyTk.ApplyPoison(firstDamage, dotDamage, dotDuration, dotInterval);// 총알 충돌 후 삭제
-            }
-
+                enemyTk.ApplyPoison(firstDamage, dotDamage, dotDuration, dotInterval);
             else if (enemyNK != null)
-            {// 적에게 1차 데미지 + 도트 적용
-                enemyNK.ApplyPoison(firstDamage, dotDamage, dotDuration, dotInterval);// 총알 충돌 후 삭제
-            }
-
+                enemyNK.ApplyPoison(firstDamage, dotDamage, dotDuration, dotInterval);
             else if (enemyFly != null)
-            {// 적에게 1차 데미지 + 도트 적용
-                enemyFly.ApplyPoison(firstDamage, dotDamage, dotDuration, dotInterval);// 총알 충돌 후 삭제
-            }
+                enemyFly.ApplyPoison(firstDamage, dotDamage, dotDuration, dotInterval);
 
             gameObject.SetActive(false);
         }
     }
-    
-    //임시커밋용 주석
 
+    // ===============================
+    // 히트 이펙트 생성 (1회)
+    // ===============================
+    void SpawnHitVFX(Vector3 hitPosition)
+    {
+        if (hitVFXPrefab == null) return;
+
+        GameObject vfx = Instantiate(
+            hitVFXPrefab,
+            hitPosition,
+            Quaternion.identity
+        );
+
+        Destroy(vfx, vfxLifeTime); // ⭐ 자동 정리
+    }
 }
+
