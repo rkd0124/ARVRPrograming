@@ -16,7 +16,7 @@ public class TutoSceneChanger : MonoBehaviour
     {
         // ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger) :
         // 인덱스 트리거 버튼이 '방금 눌렸는지' 확인합니다.
-        if (ARAVRInput.GetDown(ARAVRInput.Button.One))
+        if (ARAVRInput.GetDown(ARAVRInput.Button.One)||Input.GetMouseButtonDown(1))
         {
             // "Game" 씬으로 전환합니다.
             ChangeToGameScene();
@@ -27,7 +27,7 @@ public class TutoSceneChanger : MonoBehaviour
     void ChangeToGameScene()
     {
         // 씬 매니저를 이용해 지정된 이름의 씬을 로드합니다.
-        SceneManager.LoadScene("MainWaveScene");
+        SceneManager.LoadScene("ImageScene");
         
         // 씬 전환이 완료되었음을 디버그 콘솔에 출력 (선택 사항)
         Debug.Log("인덱스 트리거가 눌려 'Game' 씬으로 전환합니다.");
