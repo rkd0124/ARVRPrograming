@@ -59,7 +59,7 @@ public class GameReport : MonoBehaviour
             killText.text = $"{waveScript.totalKilled}마리";
         }
 
-        // 3. 남은 시간 표시
+        //남은 시간 표시
         if (timeText != null && timerScript != null)
         {
             float t = timerScript.currentTime;
@@ -68,7 +68,7 @@ public class GameReport : MonoBehaviour
             timeText.text = $"{min:00}:{sec:00}";
         }
 
-        // 4. 점수 표시
+        //점수 표시
         if (scoreText != null && scoreScript != null)
         {
             scoreText.text = $"{scoreScript.totalScore}점";
