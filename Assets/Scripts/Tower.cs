@@ -31,9 +31,15 @@ public class Tower : MonoBehaviour
         Debug.Log("타워 체력: " + hp);
 
         AnimateHPBar();
+        
 
         if (hp <= 0)
         {
+            if (gameReport != null)
+            {
+                gameReport.GameOver();
+            }
+            
             Destroy(gameObject);
         }
     }
