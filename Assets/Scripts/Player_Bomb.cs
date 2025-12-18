@@ -92,6 +92,13 @@ public class Player_Bomb : MonoBehaviour
         if (explosionEffect != null)
         {
             GameObject effect = Instantiate(explosionEffect, transform.position, Quaternion.identity);
+            ParticleSystem ps = effect.GetComponent<ParticleSystem>();
+            
+            if (ps != null)
+            {
+                ps.Play(); // 파티클 강제 재생
+            }
+            
             Destroy(effect, 2f);
         }
 
