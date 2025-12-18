@@ -27,7 +27,7 @@ public class TutoSceneChanger : MonoBehaviour
     void ChangeToGameScene()
     {
         // 씬 매니저를 이용해 지정된 이름의 씬을 로드합니다.
-        SceneManager.LoadScene("MainWaveScene");
+        SceneManager.LoadScene("Tutorial_Scene");
         
         // 씬 전환이 완료되었음을 디버그 콘솔에 출력 (선택 사항)
         Debug.Log("인덱스 트리거가 눌려 'Game' 씬으로 전환합니다.");
