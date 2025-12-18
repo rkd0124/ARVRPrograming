@@ -25,6 +25,17 @@ public class Gun : MonoBehaviour
     {
         poisonEffect = poisonImpact.GetComponent<ParticleSystem>();
         poisonAudio = poisonImpact.GetComponent<AudioSource>();
+        // AudioSource가 없다면 강제로 추가
+        if (poisonAudio == null)
+        {
+            
+            poisonAudio = poisonImpact.gameObject.AddComponent<AudioSource>(); // 실행 시점에 컴포넌트 추가
+        }
+        //사운드 찾아서 집어넣기
+        if (PoisonSoundManager.instance != null && gunFireclip == null)
+        {
+            gunFireclip = PoisonSoundManager.instance.gunFireSound; // 매니저의 사운드를 강제 할당
+        }
     }
 
     // Update is called once per frame
@@ -58,6 +69,7 @@ public class Gun : MonoBehaviour
 
     public void PoisonFire()
     {
+        
         poisonEffect.Stop();
         poisonEffect.Play();
         poisonAudio.PlayOneShot(gunFireclip);

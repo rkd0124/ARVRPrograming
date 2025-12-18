@@ -51,6 +51,7 @@ public class Fire : MonoBehaviour
             audioSource.loop = true; 
             audioSource.playOnAwake = false; 
         }
+        
     }
 
     void Update()
