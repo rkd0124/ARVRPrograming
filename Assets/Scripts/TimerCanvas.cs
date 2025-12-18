@@ -13,7 +13,7 @@ public class TimerCanvas : MonoBehaviour
     [Header("Display")]
     public bool showMinutes = true; // mm:ss ���� ����
 
-    private float currentTime;
+    public float currentTime;
     private bool isRunning = false;
 
     public GameReport gameReport; // 결과 매니저
