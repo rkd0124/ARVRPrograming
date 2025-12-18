@@ -442,6 +442,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 100
   maxHP: 100
+  gameReport: {fileID: 1709306595}
 --- !u!208 &482528774
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -804,6 +805,7 @@ MonoBehaviour:
   autoStart: 1
   timerText: {fileID: 1139173458}
   showMinutes: 1
+  gameReport: {fileID: 1709306595}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -4124,6 +4126,53 @@ MonoBehaviour:
   grabRange: 0.3
   throwPower: 20
   rotPower: 5
+--- !u!1 &1709306594
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1709306596}
+  - component: {fileID: 1709306595}
+  m_Layer: 0
+  m_Name: WinLoseManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1709306595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1709306594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8af1b443f2605d449702fb60493028e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGameEnded: 0
+  winUIPanel: {fileID: 1372434269}
+  loseUIPanel: {fileID: 2016792130}
+--- !u!4 &1709306596
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1709306594}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 348556385}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1730616540
 GameObject:
   m_ObjectHideFlags: 0
@@ -6274,6 +6323,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2044903002}
     - target: {fileID: 8463287854856806134, guid: 70e2f960e6919af4ca0ad55c3ee50b4b, type: 3}
+      propertyPath: gameReport
+      value: 
+      objectReference: {fileID: 1709306595}
+    - target: {fileID: 8463287854856806134, guid: 70e2f960e6919af4ca0ad55c3ee50b4b, type: 3}
       propertyPath: mapRenderer
       value: 
       objectReference: {fileID: 951585128}
@@ -6319,6 +6372,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 72496567994493397, guid: 70e2f960e6919af4ca0ad55c3ee50b4b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1193638558}
+    - targetCorrespondingSourceObject: {fileID: 72496567994493397, guid: 70e2f960e6919af4ca0ad55c3ee50b4b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1709306596}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70e2f960e6919af4ca0ad55c3ee50b4b, type: 3}
 --- !u!1001 &7551906602521627835

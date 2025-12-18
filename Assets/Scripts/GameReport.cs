@@ -38,7 +38,6 @@ public class GameReport : MonoBehaviour
         if (isGameEnded) return;
         isGameEnded = true;
 
-        Debug.Log("💀 GAME OVER 💀");
         if (loseUIPanel != null)
         {
             loseUIPanel.SetActive(true);
