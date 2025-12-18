@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Video; //<-ï¿½Ì°ï¿½ ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½è¿¡ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì·ï¿½ï¿½ï¿½ usingï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+using UnityEngine.Video; //<-ÀÌ°Å Áß¿ä ½ÃÇè¿¡ ³ª¿È. À¯´ÏÆ¼¿¡¼­ ºñµð¿À ¾²·Á¸é ÀÌ·¸°Ô using½áÁà¾ßÇÔ.
 
 public class VideoFrame : MonoBehaviour
 {
@@ -11,8 +11,8 @@ public class VideoFrame : MonoBehaviour
     void Start()
     {
         vp = GetComponent<VideoPlayer>();
-        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-        vp.Stop(); //Video Frameï¿½ï¿½ ï¿½Ö´ï¿½ Video playerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½
+        //¿µ»óÀç»ýÀ» ¸ØÃã
+        vp.Stop(); //Video Frame¿¡ ÀÖ´Â Video playerÀÇ ¿µ»óÀ» ¸ØÃß°í ½ÍÀ½
     }
 
     // Update is called once per frame
@@ -24,28 +24,26 @@ public class VideoFrame : MonoBehaviour
         //}
 
 
-        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
-        if (ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
+        //¿µ»ó Àç»ý
+        if (ARAVRInput.GetDown(ARAVRInput.Button.Two, ARAVRInput.Controller.RTouch))
         {
-            
+            Debug.Log("ÀÔ·Â °¨ÁöµÊ");
             if (vp.isPlaying)
             {
-                Debug.Log("Pause");
                 vp.Pause();
             }
             else
             {
-                Debug.Log("Play");
                 vp.Play();
             }
         }
     }
     
-    public void CheckVideoFrame(bool Checker) //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ñ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
+    public void CheckVideoFrame(bool Checker) //°ÔÀÌÁîÆ÷ÀÎÅÍÄÁÆ®·Ñ¿¡¼­ ¿µ»ó Àç»ýÀ» ÄÁÆ®·ÑÇÏ±â À§ÇÑ ÇÔ¼ö
     {
         if (Checker)
         {
-            if (!vp.isPlaying) //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´Ù¸ï¿½ ï¿½ï¿½ï¿½ (!)
+            if (!vp.isPlaying) //Àç»ýÇÏÁö ¾Ê´Â´Ù¸é Àç»ý (!)
             {
                 vp.Play();
             }
