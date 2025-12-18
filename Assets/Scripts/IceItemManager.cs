@@ -4,62 +4,81 @@ using UnityEngine;
 
 public class IceItemManager : MonoBehaviour
 {
-    public float requiredGauge = 100f;     // 필요한 게이지
-    public float currentGauge = 100f;        // 현재 게이지: 스테이지 초반에는 만땅으로
-    public float slowDuration = 5f;        // 감속 지속시간
-    public float slowPercent = 0.5f;       // 50% 감속
+    [Header("Gauge")]
+    public float requiredGauge = 100f;   // 최대 게이지
+    public float currentGauge = 100f;    // 현재 게이지
+
+    [Header("Ice Effect")]
+    public float slowDuration = 5f;
+    public float slowPercent = 0.5f;
 
     bool isReady = true;
 
-    // Start is called before the first frame update
+    [Header("Gauge UI")]
+    public RectTransform gaugeBar;       // ⭐ 게이지 이미지
+    public float maxWidth = 340f;         // 게이지 가득 찼을 때
+    public float minWidth = 0f;           // 게이지 0일 때
+    public float smoothSpeed = 10f;       // ⭐ 애니메이션 속도
+
+    Coroutine gaugeAnimCoroutine;
+
     void Start()
     {
-        
+        currentGauge = Mathf.Clamp(currentGauge, 0, requiredGauge);
+        UpdateGaugeImmediate();
     }
 
-    // Update is called once per frame
-    void Update() // Q키 입력 감지
+    void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) || ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.LTouch))   // X 버튼
+        if (Input.GetKeyDown(KeyCode.Q) ||
+            ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.LTouch))
         {
-            Debug.Log(currentGauge);
-            ActivateIceItem();             // 얼음 아이템 발동
+            ActivateIceItem();
         }
     }
 
-    public void AddGauge(float amount)     // 적 처치 시 게이지 증가
+    // ===============================
+    // 게이지 증가 (적 처치 시)
+    // ===============================
+    public void AddGauge(float amount)
     {
-        currentGauge += amount; //게이지에 적처치 게이지 추가
-        if (currentGauge >= requiredGauge) // 게이지가 발동을 위한 게이지 값 이상일때
-        {
-            currentGauge = requiredGauge; // 그 값 그대로 고정
-            isReady = true;                // 사용 가능
-        }
+        currentGauge += amount;
+        currentGauge = Mathf.Clamp(currentGauge, 0f, requiredGauge);
+
+        if (currentGauge >= requiredGauge)
+            isReady = true;
+
+        AnimateGauge();
     }
 
-    public void ActivateIceItem() //얼음 발동         
+    // ===============================
+    // 아이템 발동
+    // ===============================
+    public void ActivateIceItem()
     {
-        if (!isReady) return; //얼음 발동이 아니면 종료
+        if (!isReady) return;
 
-        StartCoroutine(SlowAllEnemies()); //감속 시작
-        isReady = false; //아이템 사용 불가
-        currentGauge = 0f; //게이지 초기화
+        StartCoroutine(SlowAllEnemies());
+
+        isReady = false;
+        currentGauge = 0f;
+
+        AnimateGauge();
     }
 
+    // ===============================
     // 필드 전체 적 슬로우
+    // ===============================
     IEnumerator SlowAllEnemies()
     {
-        // Enemy 태그가 붙은 모든 오브젝트 가져오기
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-        List<IEnemy> targets = new List<IEnemy>(); //대상의 적들 리스트
+        List<IEnemy> targets = new List<IEnemy>();
 
         foreach (GameObject obj in enemies)
         {
             IEnemy enemy = obj.GetComponent<IEnemy>();
             if (enemy != null)
             {
-                Debug.Log("theWorld");
                 enemy.ApplySlow(slowPercent);
                 targets.Add(enemy);
             }
@@ -67,7 +86,6 @@ public class IceItemManager : MonoBehaviour
 
         yield return new WaitForSeconds(slowDuration);
 
-        // 원래 속도로 복구
         foreach (IEnemy enemy in targets)
         {
             if (enemy != null)
@@ -75,9 +93,64 @@ public class IceItemManager : MonoBehaviour
         }
     }
 
-    public void FullCharge() //웨이브 끝나면 바로 완충
+    // ===============================
+    // 웨이브 종료 시 완충
+    // ===============================
+    public void FullCharge()
     {
-        currentGauge = requiredGauge; // 게이지 수치 최대화
-        isReady = true;               // 사용 가능 상태로 변경
+        currentGauge = requiredGauge;
+        isReady = true;
+        AnimateGauge();
+    }
+
+    // ===============================
+    // UI 처리
+    // ===============================
+    void AnimateGauge()
+    {
+        if (gaugeBar == null) return;
+
+        if (gaugeAnimCoroutine != null)
+            StopCoroutine(gaugeAnimCoroutine);
+
+        gaugeAnimCoroutine = StartCoroutine(SmoothGauge());
+    }
+
+    IEnumerator SmoothGauge()
+    {
+        float ratio = currentGauge / requiredGauge;
+        float targetWidth = Mathf.Lerp(minWidth, maxWidth, ratio);
+        float currentWidth = gaugeBar.sizeDelta.x;
+
+        while (Mathf.Abs(currentWidth - targetWidth) > 0.1f)
+        {
+            currentWidth = Mathf.Lerp(
+                currentWidth,
+                targetWidth,
+                Time.deltaTime * smoothSpeed
+            );
+
+            Vector2 size = gaugeBar.sizeDelta;
+            size.x = currentWidth;
+            gaugeBar.sizeDelta = size;
+
+            yield return null;
+        }
+
+        Vector2 finalSize = gaugeBar.sizeDelta;
+        finalSize.x = targetWidth;
+        gaugeBar.sizeDelta = finalSize;
+    }
+
+    void UpdateGaugeImmediate()
+    {
+        if (gaugeBar == null) return;
+
+        float ratio = currentGauge / requiredGauge;
+        float width = Mathf.Lerp(minWidth, maxWidth, ratio);
+
+        Vector2 size = gaugeBar.sizeDelta;
+        size.x = width;
+        gaugeBar.sizeDelta = size;
     }
 }
