@@ -634,6 +634,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4193429724516030931, guid: b37036d9d1055a540a4e9f951b8a9a05, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4193429724516030931, guid: b37036d9d1055a540a4e9f951b8a9a05, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}
@@ -935,8 +939,8 @@ RectTransform:
   m_GameObject: {fileID: 1525531249}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 5.5, y: 4.125, z: 4.125}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1053591879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
