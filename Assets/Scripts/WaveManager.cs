@@ -31,6 +31,9 @@ public class WaveManager : MonoBehaviour
 
     public GameReport gameReport; // 결과 매니저
 
+    [HideInInspector]
+    public int totalKilled = 0; // 죽인 적 수
+
     // Start is called before the first frame update
     void Start()
     {
@@ -90,6 +93,7 @@ public class WaveManager : MonoBehaviour
     public void OnEnemyKilled()
     {
         enemiesAlive--; //적이 죽음
+        totalKilled++; //카운트 증가
 
         if (enemiesAlive <= 0) //적이 전멸
             OnWaveCleared(); //웨이브 클리어
