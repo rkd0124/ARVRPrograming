@@ -1,50 +1,49 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Player_BombLauncher : MonoBehaviour
 {
-    public GameObject bombPrefab; // 폭탄 프리팹 연결
-    public Transform throwPoint; // 폭탄이 생성될 위치 (손 끝)
+    [Header("Bomb")]
+    public GameObject bombPrefab;
+    public Transform throwPoint;
 
-    public int maxUses = 3; // 최대 횟수
-    public int currentUses = 0; // 현재 사용 횟수
-    public float cooldown = 1.5f; // 쿨타임
-    private bool isCooldown = false; // 쿨타임 상태
+    [Header("Use Count")]
+    public int maxUses = 3;
+    public int currentUses = 0;
 
-    public float interactionDistance = 10f; // 상호작용 가능한 거리
-    public float requiredLookTime = 3.0f; // 바라봐야 하는 시간 (3초)
-    private float lookTimer = 0f; // 현재 바라본 시간
-    private Transform mainCameraTransform; // 메인 카메라 위치
-    
-    // BOMB 레이어의 인덱스를 저장할 변수 (추가)
-    private int bombLayer; 
+    [Header("Cooldown")]
+    public float cooldown = 1.5f;
+    private bool isCooldown = false;
 
-    // Start is called before the first frame update
+    [Header("Gaze Interaction")]
+    public float interactionDistance = 10f;
+    public float requiredLookTime = 3.0f;
+    private float lookTimer = 0f;
+    private Transform mainCameraTransform;
+
+    [Header("UI")]
+    public TextMeshProUGUI gazePercentText; // ⭐ 퍼센트 표시
+    public TextMeshProUGUI bombCountText;   // ⭐ 폭탄 횟수 표시
+
+    private int bombLayer;
+
     void Start()
     {
         if (Camera.main != null)
-        {
             mainCameraTransform = Camera.main.transform;
-        }
-
         else
-        {
             Debug.LogError("Main Camera가 씬에 없습니다!");
-        }
 
-        // BOMB 레이어의 인덱스를 미리 가져옵니다. (추가)
         bombLayer = LayerMask.NameToLayer("Bomb");
-        if (bombLayer == -1) // 레이어가 존재하지 않을 경우를 대비
-        {
-            Debug.LogError("씬에 'BOMB'라는 이름의 레이어가 정의되어 있지 않습니다! 레이어를 추가해주세요.");
-        }
+
+        UpdateBombCountUI();
+        UpdateGazeUI();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        CheckBombMaker(); // 폭탄 바라보기
+        CheckBombMaker();
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -54,19 +53,8 @@ public class Player_BombLauncher : MonoBehaviour
 
     void AttemptThrow()
     {
-        // 횟수 초과 체크
-        if (currentUses >= maxUses)
-        {
-            Debug.Log("폭탄소진");
-            return;
-        }
-
-        // 쿨타임 체크
-        if (isCooldown)
-        {
-            Debug.Log("폭탄 쿨타임 중...");
-            return;
-        }
+        if (currentUses >= maxUses) return;
+        if (isCooldown) return;
 
         SpawnBomb();
     }
@@ -78,52 +66,68 @@ public class Player_BombLauncher : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, interactionDistance))
         {
-            // 부딪힌 물체의 이름이 "BombMaker" 인지 확인
             if (hit.collider.CompareTag("BombMaker"))
             {
-                lookTimer += Time.deltaTime; //시간을 카운트
+                lookTimer += Time.deltaTime;
+                UpdateGazeUI();
+
                 if (lookTimer >= requiredLookTime)
                 {
-                    AttemptThrow(); // 폭탄 생성(쿨타임 검증단계에ㅔ)
-                    lookTimer = 0f; // 타이머 초기화 (연속 리필 방지)
+                    AttemptThrow();
+                    lookTimer = 0f;
+                    UpdateGazeUI();
                 }
-                return; // 함수 종료 (아래 초기화 코드 실행 안 함)
+                return;
             }
         }
 
-        // BombMaker를 안 보고 있거나, 허공을 보면 타이머 초기화
         lookTimer = 0f;
+        UpdateGazeUI();
     }
-
 
     void SpawnBomb()
     {
-        // 1. 상태 업데이트
         isCooldown = true;
         currentUses++;
+        UpdateBombCountUI();
+
         StartCoroutine(CooldownRoutine());
 
-        // 2. 폭탄 생성
         GameObject bomb = Instantiate(bombPrefab, throwPoint.position, throwPoint.rotation);
-        
-        // 3. 생성된 폭탄에 BOMB 레이어 적용 (추가된 부분)
         if (bombLayer != -1)
-        {
             bomb.layer = bombLayer;
-        }
     }
 
     IEnumerator CooldownRoutine()
     {
         yield return new WaitForSeconds(cooldown);
         isCooldown = false;
-        Debug.Log("폭탄 준비 완료!");
     }
-    
-    // 웨이브 클리어 -> 쿨타임 횟수 초기화
+
     public void ResetBombs()
     {
         currentUses = 0;
         isCooldown = false;
+        UpdateBombCountUI();
+    }
+
+    // ===============================
+    // UI 업데이트
+    // ===============================
+
+    void UpdateGazeUI()
+    {
+        if (gazePercentText == null) return;
+
+        float percent = Mathf.Clamp01(lookTimer / requiredLookTime) * 100f;
+        gazePercentText.text = $"{percent:0}%";
+    }
+
+    void UpdateBombCountUI()
+    {
+        if (bombCountText == null) return;
+
+        int remain = Mathf.Max(0, maxUses - currentUses);
+        bombCountText.text = $"Bomb : {remain} / {maxUses}";
     }
 }

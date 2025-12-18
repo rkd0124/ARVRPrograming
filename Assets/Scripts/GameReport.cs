@@ -15,6 +15,7 @@ public class GameReport : MonoBehaviour
     public TextMeshProUGUI killText;    // 물리친 적의 수
     public TextMeshProUGUI timeText;    // 남은 시간
     public TextMeshProUGUI scoreText;   // 점수
+    public GameObject hpUi; //체력 UI
 
     private Tower towerScript;
     private WaveManager waveScript;
@@ -27,6 +28,7 @@ public class GameReport : MonoBehaviour
         //켜져있으면 안되니까
         if (winUIPanel != null) winUIPanel.SetActive(false);
         if (loseUIPanel != null) loseUIPanel.SetActive(false);
+        if (hpUi != null) hpUi.SetActive(true);
 
         towerScript = FindObjectOfType<Tower>();
         waveScript = FindObjectOfType<WaveManager>();
@@ -86,6 +88,8 @@ public class GameReport : MonoBehaviour
         {
             winUIPanel.SetActive(true);
         }
+
+        hpUi.SetActive(false);
     }
 
     public void GameOver()
@@ -99,5 +103,7 @@ public class GameReport : MonoBehaviour
         {
             loseUIPanel.SetActive(true);
         }
+
+        hpUi.SetActive(false);
     }
 }
