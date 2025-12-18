@@ -120,6 +120,8 @@ MonoBehaviour:
   speed: 20
   lifeTime: 2
   maxDistance: 10
+  hitVFXPrefab: {fileID: 9082417837290120280, guid: ff2117f4b66e6774c987f265be6e56b3, type: 3}
+  vfxLifeTime: 2
 --- !u!54 &7117007311028799228
 Rigidbody:
   m_ObjectHideFlags: 0
