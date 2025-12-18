@@ -17,8 +17,16 @@ public class Tower : MonoBehaviour
 
     private Coroutine hpAnimCoroutine;
 
+    public GameReport gameReport;
+
     void Start()
     {
+
+        if (gameReport == null)
+        {
+            gameReport = FindObjectOfType<GameReport>();
+        }
+        
         hp = maxHP;
         SetHPBarImmediate();
     }

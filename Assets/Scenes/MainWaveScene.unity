@@ -714,6 +714,7 @@ MonoBehaviour:
   maxWidth: 340
   minWidth: 0
   smoothSpeed: 10
+  gameReport: {fileID: 1709306595}
 --- !u!208 &482528774
 NavMeshObstacle:
   m_ObjectHideFlags: 0
