@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Media;
+//using UnityEditor.Media;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -8,53 +8,53 @@ public class Video360Play : MonoBehaviour
 {
     VideoPlayer vp;
 
-    public VideoClip[] vcList; //¸®½ºÆ®·Î ¸¸µé¾î¼­ ¿©·¯ ºñµð¿À ÇÒ´ç °¡´É
+    public VideoClip[] vcList; //ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½î¼­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò´ï¿½ ï¿½ï¿½ï¿½ï¿½
     int curVCidx;
     // Start is called before the first frame update
     void Start()
     {
         vp = GetComponent<VideoPlayer>();
         vp.clip = vcList[0];
-        curVCidx = 0; //ÇöÀç ½ÇÇàµÇ°íÀÖ´Â ºñµð¿À Å¬¸³ÀÇ ÀÎµ¦½º
+        curVCidx = 0; //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½
         vp.Play();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftBracket)) // [¸¦ ´©¸£¸é ±×Àü²¨ Ãâ·Â
+        if (Input.GetKeyDown(KeyCode.LeftBracket)) // [ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         {
-            curVCidx = curVCidx - 1; //±× Àü²¨ ÀÌ¹Ç·Î -1À» ÇØÁà¾ßÇÔ.
-            if (curVCidx < 0) //±Ùµ¥ À½¼ö¸¦ Ãâ·ÂÇÒ¼ø ¾ø±â‹š¹®¿¡ Á¶°ÇÀ» ´Þ¾ÆÁÖ±â.
+            curVCidx = curVCidx - 1; //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹Ç·ï¿½ -1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+            if (curVCidx < 0) //ï¿½Ùµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ò¼ï¿½ ï¿½ï¿½ï¿½â‹šï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½Ö±ï¿½.
             {
-                curVCidx = curVCidx + vcList.Length; //vsList¿¡ ÀÖ´Â ÀüÃ¼°ª (3)À» À½¼ö°¡ µÈ curVCidx¿¡ ´õÇØÁÜ. ±×·¯¸é 2¹øÂ°²² Àç»ý
+                curVCidx = curVCidx + vcList.Length; //vsListï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ (3)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ curVCidxï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½×·ï¿½ï¿½ï¿½ 2ï¿½ï¿½Â°ï¿½ï¿½ ï¿½ï¿½ï¿½
             }
-            vp.clip = vcList[curVCidx]; //À§¿¡¼­ °è»êÇÑ °ª¿¡ ÇØ´çÇÏ´Â ºñµð¿À Àç»ý
+            vp.clip = vcList[curVCidx]; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         }
-        if (Input.GetKeyDown(KeyCode.RightBracket)) // ]¸¦ ´©¸£¸é ±× ´ÙÀ½²¨ Ãâ·Â
+        if (Input.GetKeyDown(KeyCode.RightBracket)) // ]ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         {
             curVCidx = curVCidx + 1;
-            if (curVCidx >= vcList.Length) //¸¸¾à ¼ýÀÚ°¡ 3º¸´Ù Ä¿Áö¸é.....
+            if (curVCidx >= vcList.Length) //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú°ï¿½ 3ï¿½ï¿½ï¿½ï¿½ Ä¿ï¿½ï¿½ï¿½ï¿½.....
             {
-                curVCidx = curVCidx - vcList.Length; //vsList¿¡ ÀÖ´Â ÀüÃ¼°ª (3)¿¡¼­ »©¼­ ´Ù½Ã µ¹¾Æ¿À°Ô.
+                curVCidx = curVCidx - vcList.Length; //vsListï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ (3)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½Æ¿ï¿½ï¿½ï¿½.
             }
             vp.clip = vcList[curVCidx];
         }
 
         if (Input.GetKeyDown(KeyCode.LeftBracket))
         {
-            curVCidx = (curVCidx - 1 + vcList.Length) % vcList.Length;//³ª¸ÓÁö ¿¬»ê
+            curVCidx = (curVCidx - 1 + vcList.Length) % vcList.Length;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
     public void SetVideoPlay(int num)
     {
-        if(curVCidx != num) //ÇöÀç Àç»ýÁßÀÎ ÀÎµ¦½º¿Í °°Áö ¾ÊÀ»¶§, 
+        if(curVCidx != num) //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, 
         {
-            vp.Stop(); //±× ¿µ»ó ¸ØÃß°í
-            vp.clip = vcList[num]; //´Ù¸¥ ¿µ»óÀ¸·Î ±³È¯
+            vp.Stop(); //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß°ï¿½
+            vp.clip = vcList[num]; //ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
             curVCidx = num;
-            vp.Play(); //¹Ù²ï ¿µ»óÀ» Àç»ý
+            vp.Play(); //ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         }
     }
 }

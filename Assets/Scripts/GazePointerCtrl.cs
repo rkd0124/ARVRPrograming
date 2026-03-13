@@ -1,75 +1,75 @@
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
+//using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GazePointerCtrl : MonoBehaviour
 {
-    public Transform uiCanvas; //Äµ¹ö½º
-    public UnityEngine.UI.Image gazeImg; //Äµ¹ö½º¿¡ µé°¥ ÀÌ¹ÌÁö
-    public Video360Play vp360; //360½ºÇÇ¾î¿¡ Ãß°¡µÈ ¿µ»ó ÇÃ·¹ÀÌ ±â´É
-    public Transform vrCamera; //Ä«¸Þ¶ó ÁöÁ¤
+    public Transform uiCanvas; //Äµï¿½ï¿½ï¿½ï¿½
+    public UnityEngine.UI.Image gazeImg; //Äµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½é°¥ ï¿½Ì¹ï¿½ï¿½ï¿½
+    public Video360Play vp360; //360ï¿½ï¿½ï¿½Ç¾î¿¡ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+    public Transform vrCamera; //Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     Vector3 defalutScale;
     public float uiScaleVal = 1f;
 
-    bool isHitObj; //ÀÎÅÍ·º¼ÇÀÌ ÀÏ¾î³ª´Â ¿ÀºêÁ§Æ®¿¡ ½Ã¼±ÀÌ ´êÀ¸¸é Æ®·ç, ´êÁö ¾ÊÀ»½Ã ÆÈ½º
-    GameObject preHitObj; // ÀÌÀü ÇÁ·¹ÀÓÀÇ ½Ã¼±ÀÌ ¸Ó¹°·¶´ø ¿ÀºêÁ§Æ® Á¤º¸ ´ã´Â º¯¼ö
-    GameObject curHitObj; //ÇöÀç ÇÁ·¹ÀÓÀÇ ½Ã¼±ÀÌ ¸Ó¹«¸£´Â ¿ÀºêÁ§Æ® Á¤º¸¸¦ ´ã´Â º¯¼ö
+    bool isHitObj; //ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¾î³ªï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ã¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È½ï¿½
+    GameObject preHitObj; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¼ï¿½ï¿½ï¿½ ï¿½Ó¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    GameObject curHitObj; //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¼ï¿½ï¿½ï¿½ ï¿½Ó¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     //float curGazeTime;
-    public float gazeChargeTime = 3.0f; //½Ã¼±ÀÌ ¸Ó¹«´Â ½Ã°£ Ã¼Å©
-    float curGazeTime = 0f; //ÇöÀçÀÇ °ÔÀÌÁî ½Ã°£ (ÃÊ±âÈ­)
+    public float gazeChargeTime = 3.0f; //ï¿½Ã¼ï¿½ï¿½ï¿½ ï¿½Ó¹ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ Ã¼Å©
+    float curGazeTime = 0f; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ (ï¿½Ê±ï¿½È­)
 
     // Start is called before the first frame update
     void Start()
     {
         defalutScale = uiCanvas.localScale;
-        curGazeTime = 0f; //½Ã¼±Ã¼Å© °ü·Ã º¯¼ö ½ÃÀÛÇßÀ»¶§ ÃÊ±âÈ­
+        curGazeTime = 0f; //ï¿½Ã¼ï¿½Ã¼Å© ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Äµ¹ö½º ¿ÀºêÁ§Æ®ÀÇ ½ºÄÉÀÏÀ» °Å¸®¿¡ µû¶ó¼­ Á¶Á¾
-        // 1. Ä«¸Þ¶ó¸¦ ±âÁØÀ¸·Î Àü¹æ ¹æÇâÀÇ ÁÂÇ¥ Á¤º¸ ´ã±â (°¢µµ)
+        // Äµï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        // 1. Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½)
         Vector3 dir = vrCamera.forward;
         Ray ray = new Ray(vrCamera.position, dir);
         RaycastHit hitInfo;
-        // 3. ·¹ÀÌ¿¡ ºÎ‹HÈù °æ¿ì °Å¸®°ªÀÌ¿ëÇØ uiCanvasÀÇ Å©±â¸¦ Á¶Àý
+        // 3. ï¿½ï¿½ï¿½Ì¿ï¿½ ï¿½Î‹Hï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ï¿½Ì¿ï¿½ï¿½ï¿½ uiCanvasï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½
         if (Physics.Raycast(ray, out hitInfo))
         {
             uiCanvas.localScale = defalutScale * uiScaleVal * hitInfo.distance;
-            uiCanvas.position = vrCamera.position + vrCamera.forward * hitInfo.distance; // UI À§Ä¡¸¦ Ãæµ¹ ÁöÁ¡ ±ÙÃ³·Î ÀÌµ¿ (Ä«¸Þ¶ó ¾ÕÂÊ¿¡ À§Ä¡)
+            uiCanvas.position = vrCamera.position + vrCamera.forward * hitInfo.distance; // UI ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½æµ¹ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½Ìµï¿½ (Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½Ä¡)
             if (hitInfo.transform.tag == "GazeObj")
             {
                 isHitObj = true;
             }
-            curHitObj = hitInfo.transform.gameObject; // ÇöÀç ½Ã¼±ÀÌ ´êÀº ¿ÀºêÁ§Æ® ÀúÀå
+            curHitObj = hitInfo.transform.gameObject; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
         }
-        else // 4. Ãæµ¹ ¹ß»ý ¾ÈÇÏ´Â °æ¿ì -> ±âº» ½ºÄÉÀÏ °ªÀ¸·Î uiCanvasÅ©±â Á¶Àý
+        else // 4. ï¿½æµ¹ ï¿½ß»ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ -> ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ uiCanvasÅ©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             uiCanvas.localScale = defalutScale * uiScaleVal;
             uiCanvas.position = vrCamera.position + vrCamera.forward * 2.0f; 
         }
-        // 5. uiCanvas°¡ »ç¿ëÀÚ¸¦ ¹Ù¶óº¼¼ö ÀÖµµ·Ï ¹ÝÀü (Àü¸é ¹æÇâÀ» ¹Ý´ë·Î ¹Ù²Ù±â)
+        // 5. uiCanvasï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½Ù¶óº¼¼ï¿½ ï¿½Öµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý´ï¿½ï¿½ ï¿½Ù²Ù±ï¿½)
         uiCanvas.rotation = vrCamera.rotation;
 
 
-        //µ¥ÀÌÅÍ Ã³¸®
-        if (isHitObj) //¿ÀºêÁ§Æ®¿¡ ·¹ÀÌ°¡ ´ê¾ÒÀ»¶§
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
+        if (isHitObj) //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         {
-            if (curHitObj == preHitObj) //Ãæµ¹°ú ¹Ù¶óº¸´Â°Ô °°À»¶§ -> ¹Ù¶óº¸°íÀÖÀ½À» ¼³¸í°¡´É
+            if (curHitObj == preHitObj) //ï¿½æµ¹ï¿½ï¿½ ï¿½Ù¶óº¸´Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -> ï¿½Ù¶óº¸°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             {
-                curGazeTime = curGazeTime + Time.deltaTime; //¹Ù¶óº¼¶§ ½Ã°£Áõ°¡, °ÔÀÌÁö Áõ°¡
+                curGazeTime = curGazeTime + Time.deltaTime; //ï¿½Ù¶óº¼¶ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             }
             else
             {
-                preHitObj = curHitObj; //ÀÌÀü ÇÁ·¹ÀÓÀÇ ¿µ»ó Á¤º¸ ¾÷µ¥ÀÌÆ®
+                preHitObj = curHitObj; //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
             }
-            HitObjChecker(curHitObj, true); // ÇöÀç ¹Ù¶óº¸´Â ¿ÀºêÁ§Æ®¿¡ "½Ã¼±ÀÌ ´ê¾Ò´Ù" ½ÅÈ£ Àü´Þ
+            HitObjChecker(curHitObj, true); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¶óº¸´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ "ï¿½Ã¼ï¿½ï¿½ï¿½ ï¿½ï¿½Ò´ï¿½" ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½
         }
-        else //¿ÀºêÁ§Æ®¸¦ ¹Ù¶óº¸°í ÀÖÁö ¾ÊÀ»¶§
+        else //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ù¶óº¸°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         {
             curGazeTime = 0;
             if(preHitObj != null)
@@ -79,31 +79,31 @@ public class GazePointerCtrl : MonoBehaviour
             }
         }
 
-        curGazeTime = Mathf.Clamp(curGazeTime, 0, gazeChargeTime); //½Ã¼±ÀÌ ¸Ó¹«´Â ½Ã°£À» ÃÖ¼Ú ÃÖ´ñ°ª »çÀÌ °è»ê / ½Ã¼± À¯Áö ½Ã°£ Á¦ÇÑ (0 ~ gazeChargeTime »çÀÌ·Î °íÁ¤)
-        gazeImg.fillAmount = curGazeTime / gazeChargeTime; //0 ~ 100% °ªÇ¥Çö. °ÔÀÌÁö Â÷¿À¸£´Â ±â´É
+        curGazeTime = Mathf.Clamp(curGazeTime, 0, gazeChargeTime); //ï¿½Ã¼ï¿½ï¿½ï¿½ ï¿½Ó¹ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ / ï¿½Ã¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ (0 ~ gazeChargeTime ï¿½ï¿½ï¿½Ì·ï¿½ ï¿½ï¿½ï¿½ï¿½)
+        gazeImg.fillAmount = curGazeTime / gazeChargeTime; //0 ~ 100% ï¿½ï¿½Ç¥ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 
-        //´ÙÀ½À» À§ÇÑ ÈÄ¼Ó Á¶Ä¡
-        isHitObj = false; //À§¿¡ Æ®·ç°¡ °è¼Ó ³²¾ÆÀÖÀ»¼ö ÀÖÀ¸¹Ç·Î
-        curHitObj = null; //ÇöÀçº¸´Â ¿ÀºêÁ§Æ® ºñ°Ô ¸¸µé±â
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¼ï¿½ ï¿½ï¿½Ä¡
+        isHitObj = false; //ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ç°¡ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½
+        curHitObj = null; //ï¿½ï¿½ï¿½çº¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
     }
 
-    void HitObjChecker(GameObject hitObj, bool isActive) //È÷Æ®µÈ ¿ÀºêÁ§Æ® Å¸ÀÔº°·Î ÀÛµ¿ ¹æ½Ä ±¸ºÐ / Ãæµ¹ÇÑ ¿ÀºêÁ§Æ® Å¸ÀÔ¿¡ µû¶ó ¹ÝÀÀ Á¦¾î
+    void HitObjChecker(GameObject hitObj, bool isActive) //ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Å¸ï¿½Ôºï¿½ï¿½ï¿½ ï¿½Ûµï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ / ï¿½æµ¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Å¸ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     {
-        if (hitObj.GetComponent<VideoFrame>())//hit°¡ ºñµð¿À ÇÃ·¹ÀÌ¾î ÄÄÆ÷³ÍÆ®¸¦ °®°í ÀÖ´ÂÁö È®ÀÎ / ¿ÀºêÁ§Æ®°¡ VideoFrame ÄÄÆ÷³ÍÆ®¸¦ °¡Áö°í ÀÖ´Ù¸é,
+        if (hitObj.GetComponent<VideoFrame>())//hitï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ / ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ VideoFrame ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½,
         {
             if (isActive)
             {
-                hitObj.GetComponent<VideoFrame>().CheckVideoFrame(true); // ½Ã¼±ÀÌ ´ê¾ÒÀ» ¶§ µ¿ÀÛ (¿¹: ºñµð¿À Àç»ý)
+                hitObj.GetComponent<VideoFrame>().CheckVideoFrame(true); // ï¿½Ã¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½)
             }
             else
             {
-                hitObj.GetComponent<VideoFrame>().CheckVideoFrame(false); // ½Ã¼±ÀÌ ¶°³µÀ» ¶§ µ¿ÀÛ (¿¹: ºñµð¿À Á¤Áö)
+                hitObj.GetComponent<VideoFrame>().CheckVideoFrame(false); // ï¿½Ã¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
             }
         }
 
-        if (gazeImg.fillAmount >= 1) //¿µ»ó ÇÁ·¹ÀÓÀ» ÃæºÐÈ÷ º¸°í ÀÖÀ»¶§ (°ÔÀÌÁö°¡ ´Ù Ã¡À»¶§,)
+        if (gazeImg.fillAmount >= 1) //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¡ï¿½ï¿½ï¿½ï¿½,)
         {
-            vp360.SetVideoPlay(hitObj.transform.GetSiblingIndex()); //¿µ»ó ÀÎµ¦½º °ª ¹Þ¾Æ¿À±â
+            vp360.SetVideoPlay(hitObj.transform.GetSiblingIndex()); //ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
         }
     }
 }
